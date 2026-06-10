@@ -194,7 +194,7 @@ mrb_value reverse_stereo(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value position(mrb_state *mrb, mrb_value self) {
+mrb_value location(mrb_state *mrb, mrb_value self) {
     bool         status   = false;
     mrb_value    ex_point = {0};
     MIX_Point3D *in_point = NULL;
@@ -205,6 +205,11 @@ mrb_value position(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     IGNORE_RETURN mrb_get_args(mrb, "o", &ex_point);
+
+    if(mrb_type(ex_point) != MRB_TT_CDATA) {
+        IGNORE_RETURN SDL_SetError("Mixer#location expected a Location object");
+        RaiseTypeError(mrb);
+    }
 
     sym      = mrb_intern_lit(mrb, "@track");
     val      = mrb_iv_get(mrb, self, sym);
@@ -291,7 +296,7 @@ void DefineMixerModule(mrb_state *mrb) {
     mrb_define_method(mrb, mixer, "playing?",       is_playing,     MRB_ARGS_NONE());
     mrb_define_method(mrb, mixer, "paused?",        is_paused,      MRB_ARGS_NONE());
     mrb_define_method(mrb, mixer, "reverse_stereo", reverse_stereo, MRB_ARGS_OPT(1));
-    mrb_define_method(mrb, mixer, "location",       position,       MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, mixer, "location",       location,       MRB_ARGS_REQ(1));
     mrb_define_method(mrb, mixer, "unset",          unset,          MRB_ARGS_NONE());
     mrb_define_method(mrb, mixer, "mono",           mono,           MRB_ARGS_NONE());
 
