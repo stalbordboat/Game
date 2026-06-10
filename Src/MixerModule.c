@@ -291,7 +291,7 @@ void DefineMixerModule(mrb_state *mrb) {
     mrb_define_method(mrb, mixer, "playing?",       is_playing,     MRB_ARGS_NONE());
     mrb_define_method(mrb, mixer, "paused?",        is_paused,      MRB_ARGS_NONE());
     mrb_define_method(mrb, mixer, "reverse_stereo", reverse_stereo, MRB_ARGS_OPT(1));
-    mrb_define_method(mrb, mixer, "position",       position,       MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, mixer, "location",       position,       MRB_ARGS_REQ(1));
     mrb_define_method(mrb, mixer, "unset",          unset,          MRB_ARGS_NONE());
     mrb_define_method(mrb, mixer, "mono",           mono,           MRB_ARGS_NONE());
 
