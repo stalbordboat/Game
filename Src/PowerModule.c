@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: Utility Methods For Power Stats
 #include "Internal.h"
 
 PRIVATE

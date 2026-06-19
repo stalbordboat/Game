@@ -1,4 +1,5 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
+# Description: Integer Class Extension
 
 class ::Integer
   def cycle(delta, limit)

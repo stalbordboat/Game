@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
-// Description: 2D Rendering object for a whole(non-cliped) static texture.
+// Description: Represents 2D Static Textures
 #include "Internal.h"
 
 #define KLASS_NAME "Image"

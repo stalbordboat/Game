@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: Represents The RGBA Color Model
 #include "Internal.h"
 
 PRIVATE

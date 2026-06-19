@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
-// Description: Internal Event Subsystem Implementation
+// Description: Internal Event Subsystem Management
 #ifndef INTERNALEVENT_H
 #define INTERNALEVENT_H
 

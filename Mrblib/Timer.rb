@@ -1,4 +1,5 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
+# Description: Represents Time Management Objects
 
 class ::Timer
   attr_accessor :counted_frames

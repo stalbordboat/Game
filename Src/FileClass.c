@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: Represent Files On A Filesystem
 #include "Internal.h"
 #include "File.c"
 

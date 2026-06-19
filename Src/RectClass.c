@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: Represents Rectangular Areas
 #include "Internal.h"
 
 PRIVATE

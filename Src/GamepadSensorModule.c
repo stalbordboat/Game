@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
+// Description: Event Queue Gamepad Sensor Data Structure
 #include "Internal.h"
 
 PRIVATE SDL_Event *private_event = NULL;

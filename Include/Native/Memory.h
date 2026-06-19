@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: Memory Management Interface
 #ifndef MEMORY_H
 #define MEMORY_H
 

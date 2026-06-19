@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
-// Description: The Sound class represents audio that is loaded entirely into memory and can be played on multiple tracks.
+// Description: Represents In-Memory Audio Data
 #include "Internal.h"
 
 PRIVATE MIX_Mixer *private_mixer   = NULL;

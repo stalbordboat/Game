@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
-// Description: Initializes All Internal Subsystems
+// Description: Master Internal Subsystems Management
 #include "Internal.h"
 
 #define USE_RUNTIME_ENVIRONMENT true

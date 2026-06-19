@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
-// Description: Internal Event Subsystem Implementation
+// Description: Internal Event Subsystem Management
 #include "Internal.h"
 
 PRIVATE SDL_Event *event     = NULL;

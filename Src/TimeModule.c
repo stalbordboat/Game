@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: Time Retrieval Methods
 #include "Internal.h"
 
 PRIVATE mrb_sym sym_year        = 0;

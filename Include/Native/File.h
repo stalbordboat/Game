@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
-// Description: Types and procedures for handling game's abstract virtual file system.
+// Description: Abstract File System Management
 #ifndef FILE_H
 #define FILE_H
 

@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: Kernel Namespace Methods
 #include "Internal.h"
 #include "Kernel.c"
 

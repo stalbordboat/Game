@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
-// Description: Internal General Subsystem Implementation
+// Description: Internal General Subsystem Management
 #ifndef INTERNALGENERAL_H
 #define INTERNALGENERAL_H
 

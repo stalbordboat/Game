@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
-// Description: Internal Audio Subsystem Implementation
+// Description: Internal Audio Subsystem Management
 #ifndef INTERNALAUDIO_H
 #define INTERNALAUDIO_H
 

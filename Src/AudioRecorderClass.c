@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
-// Description: Handles Audio Recording Devices.
+// Description: Represents Audio Recording Devices
 #include "Internal.h"
 
 PRIVATE

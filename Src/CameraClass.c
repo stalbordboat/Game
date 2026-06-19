@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: Represents Camera Devices
 #include "Internal.h"
 
 PRIVATE SDL_Renderer *private_renderer = NULL;

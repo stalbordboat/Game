@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
+// Description: File Status Utility Methods
 #include "Internal.h"
 
 PRIVATE

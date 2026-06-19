@@ -1,4 +1,5 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
+# Description: Array Class Extension
 
 class ::Array
   def limit

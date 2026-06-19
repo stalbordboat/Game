@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
-// Description: The game executable's implementation of an abstract file system.
+// Description: Abstract File System Management
 #include "Internal.h"
 
 #define NOT_IMPLEMENTED_PHYSFS "Not implemented for physfs!"

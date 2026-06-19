@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: Event Queue Gamepad Axes Data Structure
 #include "Internal.h"
 
 PRIVATE SDL_Event *private_event = NULL;

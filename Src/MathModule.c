@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: General Mathematical Functions
 #include "Internal.h"
 
 #define PI 3.14159265358979323846264338327950288

@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
-// Description: Internal General Subsystem Implementation
+// Description: Internal General Subsystem Management
 #include "Internal.h"
 #include <stdlib.h> // For realpath(). -D _GNU_SOURCE is passed for this.
 #include <errno.h>

@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
-// Description: Internal Window Subsystem Implementation
+// Description: Internal Window Subsystem Management
 #include "Internal.h"
 
 #define NORMAL_VSYNC 1

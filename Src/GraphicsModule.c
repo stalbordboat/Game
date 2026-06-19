@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
-// Description: Graphics Context(Window and Renderer Abstraction)
+// Description: The Graphics Context
 #include "Internal.h"
 
 PRIVATE mrb_bool    private_fullscreen = FALSE;

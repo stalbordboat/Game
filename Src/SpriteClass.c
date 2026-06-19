@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
-// Description: 2D Rendering object for a cliped static texture.
+// Description: Represents Texture Atlases
 #include "Internal.h"
 
 PRIVATE SDL_Renderer *private_renderer = NULL;

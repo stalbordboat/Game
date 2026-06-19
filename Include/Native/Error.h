@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: Error Handling Functions
 #ifndef EXERROR_H
 #define EXERROR_H
 

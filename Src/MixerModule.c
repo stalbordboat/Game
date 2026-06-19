@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
-// Description: Handles control over mixing functions some of which are mixed-in with other audio related objects.
+// Description: Playback, Status, and Effects Methods
 #include "Internal.h"
 
 PRIVATE

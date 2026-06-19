@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
-// Description: A positional object for audio.
+// Description: Represents 3D Positional Data
 #include "Internal.h"
 
 #define KLASS_NAME "Location"

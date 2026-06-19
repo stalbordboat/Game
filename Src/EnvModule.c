@@ -1,4 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
+// Description: Getter/Setter Environment Variable Interface
 #include "Internal.h"
 
 PRIVATE SDL_Environment *private_env = NULL;

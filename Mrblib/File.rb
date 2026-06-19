@@ -1,4 +1,5 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
+# Description: Represent A File On A Filesystem
 
 class ::File
   def self.open(path, mode)

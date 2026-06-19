@@ -1,5 +1,5 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
-// Description: Internal Window Subsystem Implementation
+// Description: Internal Window Subsystem Management
 #ifndef INTERNAL_WINDOW_H
 #define INTERNAL_WINDOW_H
 
