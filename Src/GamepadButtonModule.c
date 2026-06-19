@@ -5,28 +5,28 @@
 PRIVATE SDL_Event *private_event = NULL;
 
 PRIVATE
-mrb_value get_timestamp(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_timestamp(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_int_value(mrb, private_event->gbutton.timestamp);
 }
 
 PRIVATE
-mrb_value get_which(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_which(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_int_value(mrb, private_event->gbutton.which);
 }
 
 PRIVATE
-mrb_value get_button(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_button(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_int_value(mrb, private_event->gbutton.button);
 }
 
 PRIVATE
-mrb_value is_down(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_down(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT mrb;
     UNUSED_ARGUMENT self;
 
@@ -61,10 +61,10 @@ void DefineGamepadButtonModule(mrb_state *mrb, SDL_Event *event) {
     mrb_define_const(mrb, gamepadbutton, "LEFT",        mrb_int_value(mrb, SDL_GAMEPAD_BUTTON_DPAD_LEFT));
     mrb_define_const(mrb, gamepadbutton, "RIGHT",       mrb_int_value(mrb, SDL_GAMEPAD_BUTTON_DPAD_RIGHT));
 
-    mrb_define_module_function(mrb, gamepadbutton, "timestamp", get_timestamp, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, gamepadbutton, "which",     get_which,     MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, gamepadbutton, "button",    get_button,    MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, gamepadbutton, "down?",     is_down,       MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, gamepadbutton, "timestamp", self_get_timestamp, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, gamepadbutton, "which",     self_get_which,     MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, gamepadbutton, "button",    self_get_button,    MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, gamepadbutton, "down?",     self_is_down,       MRB_ARGS_NONE());
 
     RESTORE_ARENA(mrb);
 }

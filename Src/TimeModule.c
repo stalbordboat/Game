@@ -50,7 +50,7 @@ bool GetDateTime(SDL_DateTime *date_time, SDL_Time time, bool use_local) {
 }
 
 PRIVATE
-mrb_value now(mrb_state *mrb, mrb_value self) {
+mrb_value self_now(mrb_state *mrb, mrb_value self) {
     SDL_DateTime date_time = {0};
     bool         status    = false;
     mrb_int      time      = -1;
@@ -110,7 +110,7 @@ mrb_value now(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value date_format(mrb_state *mrb, mrb_value self) {
+mrb_value self_date_format(mrb_state *mrb, mrb_value self) {
     bool           status = false;
     SDL_DateFormat format = 0;
 
@@ -125,7 +125,7 @@ mrb_value date_format(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value time_format(mrb_state *mrb, mrb_value self) {
+mrb_value self_time_format(mrb_state *mrb, mrb_value self) {
     bool           status = false;
     SDL_TimeFormat format = 0;
 
@@ -140,7 +140,7 @@ mrb_value time_format(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value to_seconds(mrb_state *mrb, mrb_value self) {
+mrb_value self_to_seconds(mrb_state *mrb, mrb_value self) {
     mrb_int ns = 0;
 
     UNUSED_ARGUMENT self;
@@ -151,7 +151,7 @@ mrb_value to_seconds(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value to_nanoseconds(mrb_state *mrb, mrb_value self) {
+mrb_value self_to_nanoseconds(mrb_state *mrb, mrb_value self) {
     mrb_int s = 0;
 
     UNUSED_ARGUMENT self;
@@ -179,11 +179,11 @@ void DefineTimeModule(mrb_state *mrb) {
     mrb_define_const(mrb, time, "FORMAT_24HR",          mrb_int_value(mrb, SDL_TIME_FORMAT_24HR));
     mrb_define_const(mrb, time, "FORMAT_12HR",          mrb_int_value(mrb, SDL_TIME_FORMAT_12HR));
 
-    mrb_define_module_function(mrb, time, "now",            now,            MRB_ARGS_OPT(2));
-    mrb_define_module_function(mrb, time, "date_format",    date_format,    MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, time, "format",         time_format,    MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, time, "to_seconds",     to_seconds,     MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, time, "to_nanoseconds", to_nanoseconds, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, time, "now",            self_now,            MRB_ARGS_OPT(2));
+    mrb_define_module_function(mrb, time, "date_format",    self_date_format,    MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, time, "format",         self_time_format,    MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, time, "to_seconds",     self_to_seconds,     MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, time, "to_nanoseconds", self_to_nanoseconds, MRB_ARGS_REQ(1));
 
     RESTORE_ARENA(mrb);
 }

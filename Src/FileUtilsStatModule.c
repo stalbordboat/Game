@@ -3,7 +3,7 @@
 #include "Internal.h"
 
 PRIVATE
-mrb_value does_exist(mrb_state *mrb, mrb_value self) {
+mrb_value self_does_exist(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_path = {0};
     char      *in_path = NULL;
     mrb_bool   status  = FALSE;
@@ -24,7 +24,7 @@ mrb_value does_exist(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value is_file(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_file(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_path = {0};
     char      *in_path = NULL;
     mrb_bool   status  = FALSE;
@@ -40,7 +40,7 @@ mrb_value is_file(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value is_dir(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_dir(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_path = {0};
     char      *in_path = NULL;
     mrb_bool   status  = FALSE;
@@ -56,7 +56,7 @@ mrb_value is_dir(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value is_other(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_other(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_path = {0};
     char      *in_path = NULL;
     mrb_bool   status  = FALSE;
@@ -72,7 +72,7 @@ mrb_value is_other(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value get_size(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_size(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_path = {0};
     char      *in_path = NULL;
     mrb_int    result  = 0;
@@ -88,7 +88,7 @@ mrb_value get_size(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value create_time(mrb_state *mrb, mrb_value self) {
+mrb_value self_create_time(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_path = {0};
     char      *in_path = NULL;
     mrb_int    result  = 0;
@@ -104,7 +104,7 @@ mrb_value create_time(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value modify_time(mrb_state *mrb, mrb_value self) {
+mrb_value self_modify_time(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_path = {0};
     char      *in_path = NULL;
     mrb_int    result  = 0;
@@ -120,7 +120,7 @@ mrb_value modify_time(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value access_time(mrb_state *mrb, mrb_value self) {
+mrb_value self_access_time(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_path = {0};
     char      *in_path = NULL;
     mrb_int    result  = 0;
@@ -145,15 +145,15 @@ void DefineFileUtilsStatModule(mrb_state *mrb) {
     fileutils = mrb_module_get(mrb, "FileUtils");
     stat      = mrb_define_module_under(mrb, fileutils, "Stat");
 
-    mrb_define_module_function(mrb, stat, "exist?",      does_exist,  MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, stat, "file?",       is_file,     MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, stat, "dir?",        is_dir,      MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, stat, "other?",      is_other,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, stat, "size",        get_size,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, stat, "length",      get_size,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, stat, "create_time", create_time, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, stat, "modify_time", modify_time, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, stat, "access_time", access_time, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, stat, "exist?",      self_does_exist,  MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, stat, "file?",       self_is_file,     MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, stat, "dir?",        self_is_dir,      MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, stat, "other?",      self_is_other,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, stat, "size",        self_get_size,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, stat, "length",      self_get_size,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, stat, "create_time", self_create_time, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, stat, "modify_time", self_modify_time, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, stat, "access_time", self_access_time, MRB_ARGS_REQ(1));
 
     RESTORE_ARENA(mrb);
 }

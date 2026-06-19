@@ -5,14 +5,14 @@
 PRIVATE SDL_Event *private_event = NULL;
 
 PRIVATE
-mrb_value get_timestamp(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_timestamp(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_int_value(mrb, private_event->key.timestamp);
 }
 
 PRIVATE
-mrb_value is_down(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_down(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT mrb;
     UNUSED_ARGUMENT self;
 
@@ -20,7 +20,7 @@ mrb_value is_down(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value is_repeat(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_repeat(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT mrb;
     UNUSED_ARGUMENT self;
 
@@ -28,7 +28,7 @@ mrb_value is_repeat(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value get_key(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_key(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_int_value(mrb, private_event->key.scancode);
@@ -85,10 +85,10 @@ void DefineKeyboardModule(mrb_state *mrb, SDL_Event *event) {
     mrb_define_const(mrb, keyboard, "KEY_ESC",       mrb_int_value(mrb, SDL_SCANCODE_ESCAPE));
     mrb_define_const(mrb, keyboard, "KEY_BACKSPACE", mrb_int_value(mrb, SDL_SCANCODE_BACKSPACE));
 
-    mrb_define_module_function(mrb, keyboard, "timestamp", get_timestamp, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, keyboard, "down?",     is_down,       MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, keyboard, "repeat?",   is_repeat,     MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, keyboard, "key",       get_key,       MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, keyboard, "timestamp", self_get_timestamp, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, keyboard, "down?",     self_is_down,       MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, keyboard, "repeat?",   self_is_repeat,     MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, keyboard, "key",       self_get_key,       MRB_ARGS_NONE());
 
     RESTORE_ARENA(mrb);
 }

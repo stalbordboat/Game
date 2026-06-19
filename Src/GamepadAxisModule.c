@@ -5,28 +5,28 @@
 PRIVATE SDL_Event *private_event = NULL;
 
 PRIVATE
-mrb_value get_timestamp(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_timestamp(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_int_value(mrb, private_event->gaxis.timestamp);
 }
 
 PRIVATE
-mrb_value get_which(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_which(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_int_value(mrb, private_event->gaxis.which);
 }
 
 PRIVATE
-mrb_value get_axis(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_axis(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_int_value(mrb, private_event->gaxis.axis);
 }
 
 PRIVATE
-mrb_value get_value(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_value(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_int_value(mrb, private_event->gaxis.value);
@@ -52,10 +52,10 @@ void DefineGamepadAxisModule(mrb_state *mrb, SDL_Event *event) {
     mrb_define_const(mrb, gamepadaxis, "TRIGGER_LEFT",     mrb_int_value(mrb, SDL_GAMEPAD_AXIS_LEFT_TRIGGER));
     mrb_define_const(mrb, gamepadaxis, "TRIGGER_RIGHT",    mrb_int_value(mrb, SDL_GAMEPAD_AXIS_RIGHT_TRIGGER));
 
-    mrb_define_module_function(mrb, gamepadaxis, "timestamp", get_timestamp, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, gamepadaxis, "which",     get_which,     MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, gamepadaxis, "axis",      get_axis,      MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, gamepadaxis, "value",     get_value,     MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, gamepadaxis, "timestamp", self_get_timestamp, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, gamepadaxis, "which",     self_get_which,     MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, gamepadaxis, "axis",      self_get_axis,      MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, gamepadaxis, "value",     self_get_value,     MRB_ARGS_NONE());
 
     RESTORE_ARENA(mrb);
 }

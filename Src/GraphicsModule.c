@@ -12,7 +12,7 @@ PRIVATE bool          private_is_vsync = TRUE;
 PRIVATE SDL_Renderer *private_renderer = NULL;
 
 PRIVATE
-mrb_value show(mrb_state *mrb, mrb_value self) {
+mrb_value self_show(mrb_state *mrb, mrb_value self) {
     bool status = false;
 
     UNUSED_ARGUMENT self;
@@ -28,7 +28,7 @@ mrb_value show(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value hide(mrb_state *mrb, mrb_value self) {
+mrb_value self_hide(mrb_state *mrb, mrb_value self) {
     bool status = false;
 
     UNUSED_ARGUMENT self;
@@ -44,7 +44,7 @@ mrb_value hide(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value size(mrb_state *mrb, mrb_value self) {
+mrb_value self_size(mrb_state *mrb, mrb_value self) {
     mrb_int width  = 0;
     mrb_int height = 0;
     bool    status = false;
@@ -62,7 +62,7 @@ mrb_value size(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value width(mrb_state *mrb, mrb_value self) {
+mrb_value self_width(mrb_state *mrb, mrb_value self) {
     int  width  = 0;
     bool status = false;
 
@@ -77,7 +77,7 @@ mrb_value width(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value height(mrb_state *mrb, mrb_value self) {
+mrb_value self_height(mrb_state *mrb, mrb_value self) {
     int  height = 0;
     bool status = false;
 
@@ -92,7 +92,7 @@ mrb_value height(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value title(mrb_state *mrb, mrb_value self) {
+mrb_value self_title(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_title = {0};
     char      *in_title = NULL;
     bool       status   = false;
@@ -111,7 +111,7 @@ mrb_value title(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value icon(mrb_state *mrb, mrb_value self) {
+mrb_value self_icon(mrb_state *mrb, mrb_value self) {
     mrb_value    ex_path = {0};
     char        *in_path = NULL;
     SDL_Surface *surface = NULL;
@@ -138,7 +138,7 @@ mrb_value icon(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value fullscreen(mrb_state *mrb, mrb_value self) {
+mrb_value self_fullscreen(mrb_state *mrb, mrb_value self) {
     mrb_bool value  = FALSE;
     bool     status = false;
 
@@ -157,7 +157,7 @@ mrb_value fullscreen(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value is_hidden(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_hidden(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT mrb;
     UNUSED_ARGUMENT self;
 
@@ -165,7 +165,7 @@ mrb_value is_hidden(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value is_fullscreen(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_fullscreen(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT mrb;
     UNUSED_ARGUMENT self;
 
@@ -173,7 +173,7 @@ mrb_value is_fullscreen(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value update(mrb_state *mrb, mrb_value self) {
+mrb_value self_update(mrb_state *mrb, mrb_value self) {
     bool status = true;
 
     UNUSED_ARGUMENT self;
@@ -201,7 +201,7 @@ mrb_value update(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value draw(mrb_state *mrb, mrb_value self) {
+mrb_value self_draw(mrb_state *mrb, mrb_value self) {
     bool status = true;
 
     UNUSED_ARGUMENT self;
@@ -215,7 +215,7 @@ mrb_value draw(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value fill_rect(mrb_state *mrb, mrb_value self) {
+mrb_value self_fill_rect(mrb_state *mrb, mrb_value self) {
     SDL_FRect *in_rect  = DATA_PTR(self);
     SDL_Color *in_color = NULL;
     mrb_value  ex_color = {0};
@@ -247,7 +247,7 @@ mrb_value fill_rect(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value fill_point(mrb_state *mrb, mrb_value self) {
+mrb_value self_fill_point(mrb_state *mrb, mrb_value self) {
     mrb_float  x        = 0;
     mrb_float  y        = 0;
     mrb_value  ex_color = {0};
@@ -277,7 +277,7 @@ mrb_value fill_point(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value fill_line(mrb_state *mrb, mrb_value self) {
+mrb_value self_fill_line(mrb_state *mrb, mrb_value self) {
     mrb_float  x1       = 0;
     mrb_float  y1       = 0;
     mrb_float  x2       = 0;
@@ -309,7 +309,7 @@ mrb_value fill_line(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value blend(mrb_state *mrb, mrb_value self) {
+mrb_value self_blend(mrb_state *mrb, mrb_value self) {
     mrb_int ex_blend = 0;
 
     UNUSED_ARGUMENT self;
@@ -322,7 +322,7 @@ mrb_value blend(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value color(mrb_state *mrb, mrb_value self) {
+mrb_value self_color(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_color = {0};
     SDL_Color *color    = NULL;
 
@@ -341,7 +341,7 @@ mrb_value color(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value vsync(mrb_state *mrb, mrb_value self) {
+mrb_value self_vsync(mrb_state *mrb, mrb_value self) {
     mrb_bool value  = FALSE;
     mrb_bool status = FALSE;
 
@@ -359,7 +359,7 @@ mrb_value vsync(mrb_state *mrb, mrb_value self) {
     return mrb_bool_value(value);
 }
 
-mrb_value is_vsync(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_vsync(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT mrb;
     UNUSED_ARGUMENT self;
 
@@ -367,7 +367,7 @@ mrb_value is_vsync(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value get_name(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_name(mrb_state *mrb, mrb_value self) {
     const char *name = NULL;
 
     UNUSED_ARGUMENT self;
@@ -381,7 +381,7 @@ mrb_value get_name(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value max_size(mrb_state *mrb, mrb_value self) {
+mrb_value self_max_size(mrb_state *mrb, mrb_value self) {
     SDL_PropertiesID prop  = 0;
     mrb_int          value = 0;
 
@@ -400,7 +400,7 @@ mrb_value max_size(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value viewport(mrb_state *mrb, mrb_value self) {
+mrb_value self_viewport(mrb_state *mrb, mrb_value self) {
     SDL_FRect *f_rect  = NULL;
     SDL_Rect   rect    = {0};
     mrb_value  ex_rect = {0};
@@ -448,7 +448,7 @@ bool InternalSave(SDL_Surface *surface, const char *path) {
 }
 
 PRIVATE
-mrb_value save(mrb_state *mrb, mrb_value self) {
+mrb_value self_save(mrb_state *mrb, mrb_value self) {
     SDL_Surface  *surface = NULL;
     char         *in_path = NULL;
     mrb_value     ex_path = {0};
@@ -490,7 +490,7 @@ mrb_value save(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value get_pixel(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_pixel(mrb_state *mrb, mrb_value self) {
     mrb_int        x        = 0;
     mrb_int        y        = 0;
     SDL_Surface   *surface  = NULL;
@@ -527,7 +527,7 @@ mrb_value get_pixel(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value presentation(mrb_state *mrb, mrb_value self) {
+mrb_value self_presentation(mrb_state *mrb, mrb_value self) {
     mrb_int mode   = SDL_LOGICAL_PRESENTATION_LETTERBOX;
     mrb_int width  = DEFAULT_WINDOW_WIDTH;
     mrb_int height = DEFAULT_WINDOW_HEIGHT;
@@ -574,34 +574,34 @@ void DefineGraphicsModule(mrb_state *mrb, SDL_Window *window, SDL_Renderer *rend
 
     // Window Abstraction
 
-    mrb_define_module_function(mrb, graphics, "show",        show,          MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, graphics, "hide",        hide,          MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, graphics, "size",        size,          MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, graphics, "width",       width,         MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, graphics, "height",      height,        MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, graphics, "title",       title,         MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, graphics, "icon",        icon,          MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, graphics, "fullscreen",  fullscreen,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, graphics, "hidden?",     is_hidden,     MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, graphics, "fullscreen?", is_fullscreen, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, graphics, "show",        self_show,          MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, graphics, "hide",        self_hide,          MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, graphics, "size",        self_size,          MRB_ARGS_REQ(2));
+    mrb_define_module_function(mrb, graphics, "width",       self_width,         MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, graphics, "height",      self_height,        MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, graphics, "title",       self_title,         MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, graphics, "icon",        self_icon,          MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, graphics, "fullscreen",  self_fullscreen,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, graphics, "hidden?",     self_is_hidden,     MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, graphics, "fullscreen?", self_is_fullscreen, MRB_ARGS_NONE());
 
     // Renderer Abstraction
 
-    mrb_define_module_function(mrb, graphics, "update",       update,       MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, graphics, "draw",         draw,         MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, graphics, "fill_rect",    fill_rect,    MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, graphics, "fill_point",   fill_point,   MRB_ARGS_REQ(3));
-    mrb_define_module_function(mrb, graphics, "fill_line",    fill_line,    MRB_ARGS_REQ(5));
-    mrb_define_module_function(mrb, graphics, "blend",        blend,        MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, graphics, "color",        color,        MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, graphics, "vsync",        vsync,        MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, graphics, "vsync?",       is_vsync,     MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, graphics, "name",         get_name,     MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, graphics, "max_size",     max_size,     MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, graphics, "viewport",     viewport,     MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, graphics, "save",         save,         MRB_ARGS_REQ(1)|MRB_ARGS_OPT(1));
-    mrb_define_module_function(mrb, graphics, "get_pixel",    get_pixel,    MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, graphics, "presentation", presentation, MRB_ARGS_OPT(3));
+    mrb_define_module_function(mrb, graphics, "update",       self_update,       MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, graphics, "draw",         self_draw,         MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, graphics, "fill_rect",    self_fill_rect,    MRB_ARGS_REQ(2));
+    mrb_define_module_function(mrb, graphics, "fill_point",   self_fill_point,   MRB_ARGS_REQ(3));
+    mrb_define_module_function(mrb, graphics, "fill_line",    self_fill_line,    MRB_ARGS_REQ(5));
+    mrb_define_module_function(mrb, graphics, "blend",        self_blend,        MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, graphics, "color",        self_color,        MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, graphics, "vsync",        self_vsync,        MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, graphics, "vsync?",       self_is_vsync,     MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, graphics, "name",         self_get_name,     MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, graphics, "max_size",     self_max_size,     MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, graphics, "viewport",     self_viewport,     MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, graphics, "save",         self_save,         MRB_ARGS_REQ(1)|MRB_ARGS_OPT(1));
+    mrb_define_module_function(mrb, graphics, "get_pixel",    self_get_pixel,    MRB_ARGS_REQ(2));
+    mrb_define_module_function(mrb, graphics, "presentation", self_presentation, MRB_ARGS_OPT(3));
 
     RESTORE_ARENA(mrb);
 }

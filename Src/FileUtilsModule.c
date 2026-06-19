@@ -3,7 +3,7 @@
 #include "Internal.h"
 
 PRIVATE
-mrb_value entries(mrb_state *mrb, mrb_value self) {
+mrb_value self_entries(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_path     = {0};
     mrb_value  ex_pattern  = mrb_str_new_lit(mrb, "*");
     char      *in_path     = NULL;
@@ -43,7 +43,7 @@ mrb_value entries(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value copy(mrb_state *mrb, mrb_value self) {
+mrb_value self_copy(mrb_state *mrb, mrb_value self) {
     bool       status  = false;
     mrb_value  ex_src  = {0};
     mrb_value  ex_dest = {0};
@@ -65,7 +65,7 @@ mrb_value copy(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value make_directory(mrb_state *mrb, mrb_value self) {
+mrb_value self_make_directory(mrb_state *mrb, mrb_value self) {
     bool       status  = false;
     mrb_value  ex_path = {0};
     char      *in_path = NULL;
@@ -84,7 +84,7 @@ mrb_value make_directory(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value base_path(mrb_state *mrb, mrb_value self) {
+mrb_value self_base_path(mrb_state *mrb, mrb_value self) {
     const char *path = NULL;
     size_t      len  = 0;
 
@@ -97,7 +97,7 @@ mrb_value base_path(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value current_directory(mrb_state *mrb, mrb_value self) {
+mrb_value self_current_directory(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_cwd = {0};
     char      *in_cwd = NULL;
 
@@ -115,7 +115,7 @@ mrb_value current_directory(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value pref_path(mrb_state *mrb, mrb_value self) {
+mrb_value self_pref_path(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_org  = {0};
     mrb_value  ex_app  = {0};
     char      *in_org  = NULL;
@@ -144,7 +144,7 @@ mrb_value pref_path(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value user_directory(mrb_state *mrb, mrb_value self) {
+mrb_value self_user_directory(mrb_state *mrb, mrb_value self) {
     mrb_int     dir  = 0;
     const char *path = NULL;
     size_t      len  = 0;
@@ -166,7 +166,7 @@ mrb_value user_directory(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value remove_path(mrb_state *mrb, mrb_value self) {
+mrb_value self_remove_path(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_path = {0};
     char      *in_path = NULL;
     bool       status  = false;
@@ -185,7 +185,7 @@ mrb_value remove_path(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value rename_path(mrb_state *mrb, mrb_value self) {
+mrb_value self_rename_path(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_src  = {0};
     mrb_value  ex_dest = {0};
     char      *in_src  = NULL;
@@ -207,7 +207,7 @@ mrb_value rename_path(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value touch(mrb_state *mrb, mrb_value self) {
+mrb_value self_touch(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_path = {0};
     char      *in_path = NULL;
     File      *file    = NULL;
@@ -262,17 +262,17 @@ void DefineFileUtilsModule(mrb_state *mrb) {
     mrb_define_const(mrb, fileutils, "DIR_TEMPLATES",   mrb_int_value(mrb, SDL_FOLDER_TEMPLATES));
     mrb_define_const(mrb, fileutils, "DIR_VIDEOS",      mrb_int_value(mrb, SDL_FOLDER_VIDEOS));
 
-    mrb_define_module_function(mrb, fileutils, "entries",           entries,           MRB_ARGS_REQ(1)|MRB_ARGS_OPT(1));
-    mrb_define_module_function(mrb, fileutils, "copy",              copy,              MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, fileutils, "make_directory",    make_directory,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, fileutils, "base_path",         base_path,         MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, fileutils, "current_directory", current_directory, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, fileutils, "pref_path",         pref_path,         MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, fileutils, "user_directory",    user_directory,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, fileutils, "remove",            remove_path,       MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, fileutils, "rename_path",       rename_path,       MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, fileutils, "move",              rename_path,       MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, fileutils, "touch",             touch,             MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, fileutils, "entries",           self_entries,           MRB_ARGS_REQ(1)|MRB_ARGS_OPT(1));
+    mrb_define_module_function(mrb, fileutils, "copy",              self_copy,              MRB_ARGS_REQ(2));
+    mrb_define_module_function(mrb, fileutils, "make_directory",    self_make_directory,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, fileutils, "base_path",         self_base_path,         MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, fileutils, "current_directory", self_current_directory, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, fileutils, "pref_path",         self_pref_path,         MRB_ARGS_REQ(2));
+    mrb_define_module_function(mrb, fileutils, "user_directory",    self_user_directory,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, fileutils, "remove",            self_remove_path,       MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, fileutils, "rename_path",       self_rename_path,       MRB_ARGS_REQ(2));
+    mrb_define_module_function(mrb, fileutils, "move",              self_rename_path,       MRB_ARGS_REQ(2));
+    mrb_define_module_function(mrb, fileutils, "touch",             self_touch,             MRB_ARGS_REQ(1));
 
     RESTORE_ARENA(mrb);
 }

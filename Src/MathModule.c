@@ -6,7 +6,7 @@
 #define E  2.718281828459045
 
 PRIVATE
-mrb_value math_acos(mrb_state *mrb, mrb_value self) {
+mrb_value self_acos(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -17,7 +17,7 @@ mrb_value math_acos(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_asin(mrb_state *mrb, mrb_value self) {
+mrb_value self_asin(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -28,7 +28,7 @@ mrb_value math_asin(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_atan(mrb_state *mrb, mrb_value self) {
+mrb_value self_atan(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -39,7 +39,7 @@ mrb_value math_atan(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_atan2(mrb_state *mrb, mrb_value self) {
+mrb_value self_atan2(mrb_state *mrb, mrb_value self) {
     mrb_float val1 = 0.0;
     mrb_float val2 = 0.0;
 
@@ -51,7 +51,7 @@ mrb_value math_atan2(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_ceil(mrb_state *mrb, mrb_value self) {
+mrb_value self_ceil(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -62,7 +62,7 @@ mrb_value math_ceil(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_cos(mrb_state *mrb, mrb_value self) {
+mrb_value self_cos(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -73,7 +73,7 @@ mrb_value math_cos(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_exp(mrb_state *mrb, mrb_value self) {
+mrb_value self_exp(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -84,7 +84,7 @@ mrb_value math_exp(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_fabs(mrb_state *mrb, mrb_value self) {
+mrb_value self_fabs(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -95,7 +95,7 @@ mrb_value math_fabs(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_floor(mrb_state *mrb, mrb_value self) {
+mrb_value self_floor(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -106,7 +106,7 @@ mrb_value math_floor(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_trunc(mrb_state *mrb, mrb_value self) {
+mrb_value self_trunc(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -117,7 +117,7 @@ mrb_value math_trunc(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_fmod(mrb_state *mrb, mrb_value self) {
+mrb_value self_fmod(mrb_state *mrb, mrb_value self) {
     mrb_float x = 0;
     mrb_float y = 0;
 
@@ -129,7 +129,7 @@ mrb_value math_fmod(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_log(mrb_state *mrb, mrb_value self) {
+mrb_value self_log(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -140,7 +140,7 @@ mrb_value math_log(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_log10(mrb_state *mrb, mrb_value self) {
+mrb_value self_log10(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -151,7 +151,7 @@ mrb_value math_log10(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_pow(mrb_state *mrb, mrb_value self) {
+mrb_value self_pow(mrb_state *mrb, mrb_value self) {
     mrb_float x = 0;
     mrb_float y = 0;
 
@@ -163,7 +163,7 @@ mrb_value math_pow(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_round(mrb_state *mrb, mrb_value self) {
+mrb_value self_round(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -174,7 +174,7 @@ mrb_value math_round(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_lround(mrb_state *mrb, mrb_value self) {
+mrb_value self_lround(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -185,7 +185,7 @@ mrb_value math_lround(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_sin(mrb_state *mrb, mrb_value self) {
+mrb_value self_sin(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -196,7 +196,7 @@ mrb_value math_sin(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_sqrt(mrb_state *mrb, mrb_value self) {
+mrb_value self_sqrt(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -207,7 +207,7 @@ mrb_value math_sqrt(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_tan(mrb_state *mrb, mrb_value self) {
+mrb_value self_tan(mrb_state *mrb, mrb_value self) {
     mrb_float val = 0.0;
 
     UNUSED_ARGUMENT self;
@@ -218,7 +218,7 @@ mrb_value math_tan(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value math_abs(mrb_state *mrb, mrb_value self) {
+mrb_value self_abs(mrb_state *mrb, mrb_value self) {
     mrb_int val = 0;
 
     UNUSED_ARGUMENT self;
@@ -241,26 +241,26 @@ void DefineMathModule(mrb_state *mrb) {
     mrb_define_const(mrb, math, "PI", mrb_float_value(mrb, PI));
     mrb_define_const(mrb, math, "E",  mrb_float_value(mrb, E));
 
-    mrb_define_module_function(mrb, math, "acos",   math_acos,   MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "asin",   math_asin,   MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "atan",   math_atan,   MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "atan2",  math_atan2,  MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, math, "ceil",   math_ceil,   MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "cos",    math_cos,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "exp",    math_exp,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "fabs",   math_fabs,   MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "floor",  math_floor,  MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "trunc",  math_trunc,  MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "fmod",   math_fmod,   MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, math, "log",    math_log,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "log10",  math_log10,  MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "pow",    math_pow,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "round",  math_round,  MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "lround", math_lround, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "sin",    math_sin,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "sqrt",   math_sqrt,   MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "tan",    math_tan,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "abs",    math_abs,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "acos",   self_acos,   MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "asin",   self_asin,   MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "atan",   self_atan,   MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "atan2",  self_atan2,  MRB_ARGS_REQ(2));
+    mrb_define_module_function(mrb, math, "ceil",   self_ceil,   MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "cos",    self_cos,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "exp",    self_exp,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "fabs",   self_fabs,   MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "floor",  self_floor,  MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "trunc",  self_trunc,  MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "fmod",   self_fmod,   MRB_ARGS_REQ(2));
+    mrb_define_module_function(mrb, math, "log",    self_log,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "log10",  self_log10,  MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "pow",    self_pow,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "round",  self_round,  MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "lround", self_lround, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "sin",    self_sin,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "sqrt",   self_sqrt,   MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "tan",    self_tan,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "abs",    self_abs,    MRB_ARGS_REQ(1));
 
     RESTORE_ARENA(mrb);
 }

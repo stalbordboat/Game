@@ -5,7 +5,7 @@
 PRIVATE SDL_Event *private_event = NULL;
 
 PRIVATE
-mrb_value is_fetching(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_fetching(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT mrb;
     UNUSED_ARGUMENT self;
 
@@ -13,7 +13,7 @@ mrb_value is_fetching(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value get_type(mrb_state *mrb, mrb_value self) {
+mrb_value self_get_type(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_int_value(mrb, private_event->type);
@@ -54,8 +54,8 @@ void DefineEventModule(mrb_state *mrb, SDL_Event *event) {
     mrb_define_const(mrb, ex_event, "CAMERA_DEVICE_DENIED",        mrb_int_value(mrb, SDL_EVENT_CAMERA_DEVICE_DENIED));
     mrb_define_const(mrb, ex_event, "SENSOR_UPDATE",               mrb_int_value(mrb, SDL_EVENT_SENSOR_UPDATE));
 
-    mrb_define_module_function(mrb, ex_event, "fetching?", is_fetching, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, ex_event, "type",      get_type,    MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, ex_event, "fetching?", self_is_fetching, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, ex_event, "type",      self_get_type,    MRB_ARGS_NONE());
 
     RESTORE_ARENA(mrb);
 }

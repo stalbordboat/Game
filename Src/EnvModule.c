@@ -5,7 +5,7 @@
 PRIVATE SDL_Environment *private_env = NULL;
 
 PRIVATE
-mrb_value get(mrb_state *mrb, mrb_value self) {
+mrb_value self_get(mrb_state *mrb, mrb_value self) {
     mrb_value   ex_name   = {0};
     mrb_value   ex_result = {0};
     char       *in_name   = NULL;
@@ -27,7 +27,7 @@ mrb_value get(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value set(mrb_state *mrb, mrb_value self) {
+mrb_value self_set(mrb_state *mrb, mrb_value self) {
     mrb_value  ex_name   = {0};
     mrb_value  ex_value  = {0};
     char      *in_name   = NULL;
@@ -63,8 +63,8 @@ void DefineEnvModule(mrb_state *mrb, SDL_Environment *env) {
 
     ex_env = mrb_define_module(mrb, "Env");
 
-    mrb_define_module_function(mrb, ex_env, "[]",  get, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, ex_env, "[]=", set, MRB_ARGS_REQ(2));
+    mrb_define_module_function(mrb, ex_env, "[]",  self_get, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, ex_env, "[]=", self_set, MRB_ARGS_REQ(2));
 
     RESTORE_ARENA(mrb);
 }

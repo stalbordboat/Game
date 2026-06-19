@@ -15,42 +15,42 @@ int GetPowerStatus(mrb_state *mrb) {
 }
 
 PRIVATE
-mrb_value is_unknown(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_unknown(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_bool_value((GetPowerStatus(mrb) == SDL_POWERSTATE_UNKNOWN));
 }
 
 PRIVATE
-mrb_value is_on_battery(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_on_battery(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_bool_value((GetPowerStatus(mrb) == SDL_POWERSTATE_ON_BATTERY));
 }
 
 PRIVATE
-mrb_value is_no_battery(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_no_battery(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_bool_value((GetPowerStatus(mrb) == SDL_POWERSTATE_NO_BATTERY));
 }
 
 PRIVATE
-mrb_value is_charging(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_charging(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_bool_value((GetPowerStatus(mrb) == SDL_POWERSTATE_CHARGING));
 }
 
 PRIVATE
-mrb_value is_charged(mrb_state *mrb, mrb_value self) {
+mrb_value self_is_charged(mrb_state *mrb, mrb_value self) {
     UNUSED_ARGUMENT self;
 
     return mrb_bool_value((GetPowerStatus(mrb) == SDL_POWERSTATE_CHARGED));
 }
 
 PRIVATE
-mrb_value seconds(mrb_state *mrb, mrb_value self) {
+mrb_value self_seconds(mrb_state *mrb, mrb_value self) {
     mrb_int status = SDL_POWERSTATE_ERROR;
     int     sec    = 0;
 
@@ -65,7 +65,7 @@ mrb_value seconds(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
-mrb_value percent(mrb_state *mrb, mrb_value self) {
+mrb_value self_percent(mrb_state *mrb, mrb_value self) {
     mrb_int status = SDL_POWERSTATE_ERROR;
     int     per    = 0;
 
@@ -87,13 +87,13 @@ void DefinePowerModule(mrb_state *mrb) {
 
     power = mrb_define_module(mrb, "Power");
 
-    mrb_define_module_function(mrb, power, "unknown?",    is_unknown,    MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, power, "on_battery?", is_on_battery, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, power, "no_battery?", is_no_battery, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, power, "charging?",   is_charging,   MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, power, "charged?",    is_charged,    MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, power, "seconds",     seconds,       MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, power, "percent",     percent,       MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, power, "unknown?",    self_is_unknown,    MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, power, "on_battery?", self_is_on_battery, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, power, "no_battery?", self_is_no_battery, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, power, "charging?",   self_is_charging,   MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, power, "charged?",    self_is_charged,    MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, power, "seconds",     self_seconds,       MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, power, "percent",     self_percent,       MRB_ARGS_NONE());
 
     RESTORE_ARENA(mrb);
 }
