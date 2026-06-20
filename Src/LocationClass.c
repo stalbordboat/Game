@@ -2,14 +2,12 @@
 // Description: Represents 3D Positional Data
 #include "Internal.h"
 
-#define KLASS_NAME "Location"
-
 PRIVATE
 void point_dispose(mrb_state *mrb, Buffer *point) {
     mrb_free(mrb, point);
 }
 
-PRIVATE struct mrb_data_type point_data = { KLASS_NAME, point_dispose };
+PRIVATE struct mrb_data_type point_data = { "Location", point_dispose };
 
 PRIVATE
 mrb_value initialize(mrb_state *mrb, mrb_value self) {
@@ -119,7 +117,7 @@ void DefineLocationClass(mrb_state *mrb) {
 
     SAVE_ARENA(mrb);
 
-    point = mrb_define_class(mrb, KLASS_NAME, mrb->object_class);
+    point = mrb_define_class(mrb, "Location", mrb->object_class);
     SET_INSTANCE_TYPE(point);
 
     mrb_define_method(mrb, point, "initialize",      initialize,      MRB_ARGS_OPT(3));

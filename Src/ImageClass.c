@@ -2,8 +2,6 @@
 // Description: Represents 2D Static Textures
 #include "Internal.h"
 
-#define KLASS_NAME "Image"
-
 PRIVATE SDL_Renderer *private_renderer = NULL;
 
 PRIVATE SDL_INLINE
@@ -91,7 +89,7 @@ void image_dispose(mrb_state *mrb, Buffer *image) {
     DestroyImage(image);
 }
 
-PRIVATE struct mrb_data_type image_data = { KLASS_NAME, image_dispose };
+PRIVATE struct mrb_data_type image_data = { "Image", image_dispose };
 
 PRIVATE
 mrb_value initialize(mrb_state *mrb, mrb_value self) {
@@ -263,7 +261,7 @@ void DefineImageClass(mrb_state *mrb, SDL_Renderer *renderer) {
 
     SAVE_ARENA(mrb);
 
-    image = mrb_define_class(mrb, KLASS_NAME, mrb->object_class);
+    image = mrb_define_class(mrb, "Image", mrb->object_class);
     SET_INSTANCE_TYPE(image);
 
     mrb_define_method(mrb, image, "initialize",      initialize,      MRB_ARGS_REQ(1)|MRB_ARGS_KEY(1, 1));
