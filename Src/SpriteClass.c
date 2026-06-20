@@ -161,10 +161,10 @@ mrb_value initialize(mrb_state *mrb, mrb_value self) {
     Sprite    *sprite   = NULL;
     Image     *in_image = NULL;
     mrb_value  ex_image = {0};
-    mrb_int    width    = 0;
-    mrb_int    height   = 0;
+    mrb_int    horz     = 0;
+    mrb_int    vert     = 0;
 
-    IGNORE_RETURN mrb_get_args(mrb, "iio", &width, &height, &ex_image);
+    IGNORE_RETURN mrb_get_args(mrb, "iio", &horz, &vert, &ex_image);
 
     if(mrb_type(ex_image) != MRB_TT_CDATA) {
         IGNORE_RETURN SDL_SetError("Sprite expected an Image object");
@@ -177,7 +177,7 @@ mrb_value initialize(mrb_state *mrb, mrb_value self) {
         RaiseRuntimeError(mrb);
     }
 
-    SetupSpriteInstanceVariables(mrb, self, in_image, ex_image, width, height);
+    SetupSpriteInstanceVariables(mrb, self, in_image, ex_image, horz, vert);
 
     DATA_PTR(self)  = sprite;
     DATA_TYPE(self) = &sprite_data;

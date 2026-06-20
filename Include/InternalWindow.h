@@ -44,10 +44,6 @@ bool HasExtname(const char *path, const char *extname);
 PUBLIC
 SDL_Surface *CreateSurfaceFromRenderer(SDL_Renderer *renderer, SDL_Rect *rect);
 
-// ===============
-// Image Functions
-// ===============
-
 PUBLIC
 Image *CreateImage(const char *path, SDL_Color *key);
 
@@ -55,16 +51,12 @@ PUBLIC
 void DestroyImage(Image *image);
 
 PUBLIC
-bool UpdateImage(Image *image, SDL_FRect *src, SDL_FRect *dest, SDL_FPoint *pos, SDL_Color *color);
-
-// ================
-// Sprite Functions
-// ================
-
-PUBLIC
 Sprite *CreateSprite(Image *image);
 
 PUBLIC
 void DestroySprite(Sprite *sprite);
+
+PUBLIC
+bool UpdateImage(Image *image, SDL_FRect *src, SDL_FRect *dest, SDL_FPoint *pos, SDL_Color *color);
 
 #endif // INTERNAL_WINDOW_H

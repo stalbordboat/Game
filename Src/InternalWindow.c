@@ -86,45 +86,6 @@ SDL_Renderer *Renderer(void) {
     return renderer;
 }
 
-// ==================
-// Graphics Functions
-// ==================
-
-PUBLIC
-SDL_Surface *CreateSurfaceFromRenderer(SDL_Renderer *renderer, SDL_Rect *rect) {
-    SDL_Surface *surface = NULL;
-
-    surface = SDL_RenderReadPixels(renderer, rect);
-    if(!surface) {
-        return NULL;
-    }
-
-    return surface;
-}
-
-// ===============
-// Image Functions
-// ===============
-
-PRIVATE
-bool SetColorKey(SDL_Surface *surface, SDL_Color *color) {
-    Uint32 key    = 0;
-    bool   status = false;
-
-    key = SDL_MapRGB(SDL_GetPixelFormatDetails(surface->format),
-                     NULL,
-                     color->r,
-                     color->g,
-                     color->b);
-
-    status = SDL_SetSurfaceColorKey(surface, true, key);
-    if(!status) {
-        return false;
-    }
-
-    return true;
-}
-
 PUBLIC
 bool HasExtname(const char *path, const char *extname) {
     size_t path_len = 0;
@@ -143,6 +104,41 @@ bool HasExtname(const char *path, const char *extname) {
 
     // Compare from the end of the path
     return (SDL_strcmp(path + path_len - ext_len, extname) == 0);
+}
+
+// ==================
+// Graphics Functions
+// ==================
+
+PUBLIC
+SDL_Surface *CreateSurfaceFromRenderer(SDL_Renderer *renderer, SDL_Rect *rect) {
+    SDL_Surface *surface = NULL;
+
+    surface = SDL_RenderReadPixels(renderer, rect);
+    if(!surface) {
+        return NULL;
+    }
+
+    return surface;
+}
+
+PRIVATE
+bool SetColorKey(SDL_Surface *surface, SDL_Color *color) {
+    Uint32 key    = 0;
+    bool   status = false;
+
+    key = SDL_MapRGB(SDL_GetPixelFormatDetails(surface->format),
+                     NULL,
+                     color->r,
+                     color->g,
+                     color->b);
+
+    status = SDL_SetSurfaceColorKey(surface, true, key);
+    if(!status) {
+        return false;
+    }
+
+    return true;
 }
 
 PRIVATE
@@ -245,6 +241,30 @@ void DestroyImage(Image *image) {
 }
 
 PUBLIC
+Sprite *CreateSprite(Image *image) {
+    Sprite *sprite = NULL;
+
+    sprite = CallocBuffer(1, sizeof(Sprite));
+    if(!sprite) {
+        return NULL;
+    }
+
+    sprite->texture = image->texture;
+    sprite->blend   = image->blend;
+
+    return sprite;
+}
+
+PUBLIC
+void DestroySprite(Sprite *sprite) {
+    if(!sprite) {
+        return;
+    }
+
+    FreeBuffer(sprite);
+}
+
+PUBLIC
 bool UpdateImage(Image      *image,
                  SDL_FRect  *src,
                  SDL_FRect  *dest,
@@ -282,32 +302,4 @@ bool UpdateImage(Image      *image,
     }
 
     return true;
-}
-
-// ================
-// Sprite Functions
-// ================
-
-PUBLIC
-Sprite *CreateSprite(Image *image) {
-    Sprite *sprite = NULL;
-
-    sprite = CallocBuffer(1, sizeof(Sprite));
-    if(!sprite) {
-        return NULL;
-    }
-
-    sprite->texture = image->texture;
-    sprite->blend   = image->blend;
-
-    return sprite;
-}
-
-PUBLIC
-void DestroySprite(Sprite *sprite) {
-    if(!sprite) {
-        return;
-    }
-
-    FreeBuffer(sprite);
 }
