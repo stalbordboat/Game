@@ -419,8 +419,6 @@ mrb_value self_max_size(mrb_state *mrb, mrb_value self) {
 
     value = SDL_GetNumberProperty(prop, SDL_PROP_RENDERER_MAX_TEXTURE_SIZE_NUMBER, 0);
 
-    SDL_DestroyProperties(prop);
-
     return mrb_int_value(mrb, value);
 }
 

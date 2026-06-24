@@ -379,8 +379,6 @@ bool PlaySound(Sound *sound, int track, int loops) {
         return false;
     }
 
-    SDL_DestroyProperties(prop);
-
     return true;
 }
 
@@ -410,8 +408,6 @@ bool FadeInSound(Sound *sound, int track, int loops, int milliseconds) {
     if(!status) {
         return false;
     }
-
-    SDL_DestroyProperties(prop);
 
     return true;
 }
