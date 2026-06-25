@@ -33,7 +33,7 @@ WARNING_FLAGS       = %w(-Wall -Werror -Wextra).join ' '
 INCLUDE_FLAGS       = %W(-I #{INCLUDE_DIRNAME}).join ' '
 ASSERT_LEVEL        = ENV['ASSERT_LEVEL'] || '2'
 DEFINE_FLAGS        = %W(-D _GNU_SOURCE -D SDL_ASSERT_LEVEL=#{ASSERT_LEVEL}).join ' '
-PKGS                = %w(game-mruby sdl3 physfs sdl3-mixer alsa).join ' '
+PKGS                = %w(game-mruby sdl3 physfs sdl3-mixer).join ' '
 
 # ==============
 # Specifications
