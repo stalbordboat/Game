@@ -287,7 +287,7 @@ void DefineMixerModule(mrb_state *mrb) {
     mrb_define_module_function(mrb, mixer, "reopen",  self_reopen,     MRB_ARGS_OPT(3));
     mrb_define_module_function(mrb, mixer, "stop",    self_stop,       MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mixer, "fadeout", self_fadeout,    MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mixer, "volume",  self_get_volume, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, mixer, "volume",  self_get_volume, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mixer, "volume=", self_set_volume, MRB_ARGS_REQ(1));
 
     mrb_define_method(mrb, mixer, "pause",          pause,          MRB_ARGS_NONE());
