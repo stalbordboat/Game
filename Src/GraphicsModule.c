@@ -415,7 +415,7 @@ mrb_value self_viewport(mrb_state *mrb, mrb_value self) {
 
     UNUSED_ARGUMENT self;
 
-    mrb_get_args(mrb, "o", &ex_rect);
+    IGNORE_RETURN mrb_get_args(mrb, "o", &ex_rect);
 
     CheckMrbObject(mrb, ex_rect, "Rect", "Graphics.viewport");
 
@@ -470,9 +470,9 @@ mrb_value self_save(mrb_state *mrb, mrb_value self) {
 
     IGNORE_RETURN mrb_get_args(mrb, "S|o", &ex_path, &ex_rect);
 
-    CheckMrbObject(mrb, ex_rect, "Rect", "Graphics.save");
-
     if(!mrb_nil_p(ex_rect)) {
+        CheckMrbObject(mrb, ex_rect, "Rect", "Graphics.save");
+
         in_rect = DATA_PTR(ex_rect);
         rect.x  = in_rect->x;
         rect.y  = in_rect->y;
