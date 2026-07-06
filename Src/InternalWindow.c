@@ -195,6 +195,27 @@ SDL_Surface *CreateSurfaceForImage(const char *path, SDL_Color *key) {
     return surface;
 }
 
+PRIVATE
+SDL_Surface *CreateSurfaceForScreenshot(SDL_Surface *screen, SDL_Color *key) {
+    SDL_Surface *surface = NULL;
+    bool         status  = false;
+
+    surface = SDL_CreateSurfaceFrom(screen->w, screen->h, screen->format, screen->pixels, screen->pitch);
+    if(!surface) {
+        return NULL;
+    }
+
+    if(key) {
+        status = SetColorKey(surface, key);
+        if(!status) {
+            SDL_DestroySurface(surface);
+            return NULL;
+        }
+    }
+
+    return surface;
+}
+
 PUBLIC
 Image *CreateImage(const char *path, SDL_Color *color_key) {
     Image       *image   = NULL;
@@ -218,6 +239,54 @@ Image *CreateImage(const char *path, SDL_Color *color_key) {
         return NULL;
     }
 
+    SDL_DestroySurface(surface);
+
+    image->blend = SDL_BLENDMODE_BLEND;
+    image->flip  = SDL_FLIP_NONE;
+    image->angle = 0.0;
+
+    return image;
+}
+
+PUBLIC
+Image *CreateImageFromScreenshot(SDL_FRect *dest, SDL_Renderer *renderer, SDL_Color *key) {
+    Image       *image   = NULL;
+    SDL_Surface *surface = NULL;
+    SDL_Surface *screen  = NULL;
+    SDL_Rect     src     = {0};
+
+    image = CallocBuffer(1, sizeof(Image));
+    if(!image) {
+        return NULL;
+    }
+
+    src.x = dest->x;
+    src.y = dest->y;
+    src.w = dest->w;
+    src.h = dest->h;
+
+    screen = CreateSurfaceFromRenderer(renderer, &src);
+    if(!screen) {
+        DestroyImage(image);
+        return NULL;
+    }
+
+    surface = CreateSurfaceForScreenshot(screen, key);
+    if(!surface) {
+        SDL_DestroySurface(screen);
+        DestroyImage(image);
+        return NULL;
+    }
+
+    image->texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if(!image->texture) {
+        SDL_DestroySurface(screen);
+        SDL_DestroySurface(surface);
+        DestroyImage(image);
+        return NULL;
+    }
+
+    SDL_DestroySurface(screen);
     SDL_DestroySurface(surface);
 
     image->blend = SDL_BLENDMODE_BLEND;

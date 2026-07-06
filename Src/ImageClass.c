@@ -94,8 +94,9 @@ PRIVATE struct mrb_data_type image_data = { "Image", image_dispose };
 PRIVATE
 mrb_value initialize(mrb_state *mrb, mrb_value self) {
     Image         *image        = NULL;
-    mrb_value      ex_path      = {0};
-    char          *in_path      = NULL;
+    mrb_value      ex_dest      = {0};
+    char          *path         = NULL;
+    SDL_FRect     *in_dest      = NULL;
     mrb_value      kw_values[1] = {0};
     mrb_kwargs     kw_args      = {0};
     mrb_sym        kw_names[1]  = {0};
@@ -109,13 +110,27 @@ mrb_value initialize(mrb_state *mrb, mrb_value self) {
     kw_args.table    = kw_names;
     kw_args.values   = kw_values;
 
-    IGNORE_RETURN mrb_get_args(mrb, "S:", &ex_path, &kw_args);
+    IGNORE_RETURN mrb_get_args(mrb, "o:", &ex_dest, &kw_args);
 
     color_key = ColorKey(kw_values);
-    in_path   = mrb_str_to_cstr(mrb, ex_path);
-    image     = CreateImage(in_path, color_key);
-    if(!image) {
-        RaiseRuntimeError(mrb);
+
+    if(mrb_string_p(ex_dest)) {
+        path  = mrb_str_to_cstr(mrb, ex_dest);
+        image = CreateImage(path, color_key);
+        if(!image) {
+            RaiseRuntimeError(mrb);
+        }
+    }
+    else {
+        if(mrb_type(ex_dest) != MRB_TT_CDATA) {
+            IGNORE_RETURN SDL_SetError("A Rect object was expected for Image");
+            RaiseTypeError(mrb);
+        }
+        in_dest = DATA_PTR(ex_dest);
+        image   = CreateImageFromScreenshot(in_dest, private_renderer, color_key);
+        if(!image) {
+            RaiseRuntimeError(mrb);
+        }
     }
 
     SetupImageClassInstanceVariables(mrb, self, image);

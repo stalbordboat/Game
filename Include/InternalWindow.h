@@ -48,6 +48,9 @@ PUBLIC
 Image *CreateImage(const char *path, SDL_Color *key);
 
 PUBLIC
+Image *CreateImageFromScreenshot(SDL_FRect *dest, SDL_Renderer *renderer, SDL_Color *key);
+
+PUBLIC
 void DestroyImage(Image *image);
 
 PUBLIC

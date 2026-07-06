@@ -581,6 +581,24 @@ mrb_value self_presentation(mrb_state *mrb, mrb_value self) {
     return mrb_nil_value();
 }
 
+PRIVATE
+mrb_value self_screenshot(mrb_state *mrb, mrb_value self) {
+    mrb_value      ex_rect = {0};
+    mrb_value      image   = {0};
+    struct RClass *klass   = {0};
+    mrb_value      argv[1] = {0};
+
+    UNUSED_ARGUMENT self;
+
+    IGNORE_RETURN mrb_get_args(mrb, "o", &ex_rect);
+
+    klass   = mrb_class_get(mrb, "Image");
+    argv[0] = ex_rect;
+    image   = mrb_obj_new(mrb, klass, 1, argv);
+
+    return image;
+}
+
 PUBLIC
 void DefineGraphicsModule(mrb_state *mrb, SDL_Window *window, SDL_Renderer *renderer) {
     struct RClass *graphics = NULL;
@@ -635,6 +653,7 @@ void DefineGraphicsModule(mrb_state *mrb, SDL_Window *window, SDL_Renderer *rend
     mrb_define_module_function(mrb, graphics, "save",         self_save,         MRB_ARGS_REQ(1)|MRB_ARGS_OPT(1));
     mrb_define_module_function(mrb, graphics, "get_pixel",    self_get_pixel,    MRB_ARGS_REQ(2));
     mrb_define_module_function(mrb, graphics, "presentation", self_presentation, MRB_ARGS_OPT(3));
+    mrb_define_module_function(mrb, graphics, "screenshot",   self_screenshot,   MRB_ARGS_REQ(1)|MRB_ARGS_KEY(1, 1));
 
     RESTORE_ARENA(mrb);
 }
