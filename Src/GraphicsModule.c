@@ -226,15 +226,8 @@ mrb_value self_fill_rect(mrb_state *mrb, mrb_value self) {
 
     IGNORE_RETURN mrb_get_args(mrb, "oo", &ex_rect, &ex_color);
 
-    if(mrb_type(ex_rect) != MRB_TT_CDATA) {
-        IGNORE_RETURN SDL_SetError("A Rect object was expected");
-        RaiseTypeError(mrb);
-    }
-
-    if(mrb_type(ex_color) != MRB_TT_CDATA) {
-        IGNORE_RETURN SDL_SetError("A Color object was expected");
-        RaiseTypeError(mrb);
-    }
+    CheckMrbObject(mrb, ex_rect,  "Rect",  "Graphics.fill_rect");
+    CheckMrbObject(mrb, ex_color, "Color", "Graphics.fill_rect");
 
     in_rect  = DATA_PTR(ex_rect);
     in_color = DATA_PTR(ex_color);
@@ -268,10 +261,7 @@ mrb_value self_fill_point(mrb_state *mrb, mrb_value self) {
 
     IGNORE_RETURN mrb_get_args(mrb, "ffo", &x, &y, &ex_color);
 
-    if(mrb_type(ex_color) != MRB_TT_CDATA) {
-        IGNORE_RETURN SDL_SetError("A Color object was expected");
-        RaiseTypeError(mrb);
-    }
+    CheckMrbObject(mrb, ex_color, "Color", "Graphics.fill_point");
 
     in_color = DATA_PTR(ex_color);
     status   = SDL_SetRenderDrawColor(private_renderer,
@@ -305,10 +295,7 @@ mrb_value self_fill_line(mrb_state *mrb, mrb_value self) {
 
     IGNORE_RETURN mrb_get_args(mrb, "ffffo", &x1, &y1, &x2, &y2, &ex_color);
 
-    if(mrb_type(ex_color) != MRB_TT_CDATA) {
-        IGNORE_RETURN SDL_SetError("A Color object was expected");
-        RaiseTypeError(mrb);
-    }
+    CheckMrbObject(mrb, ex_color, "Color", "Graphics.fill_line");
 
     in_color = DATA_PTR(ex_color);
     status   = SDL_SetRenderDrawColor(private_renderer,
@@ -350,10 +337,7 @@ mrb_value self_color(mrb_state *mrb, mrb_value self) {
 
     IGNORE_RETURN mrb_get_args(mrb, "o", &ex_color);
 
-    if(mrb_type(ex_color) != MRB_TT_CDATA) {
-        IGNORE_RETURN SDL_SetError("A Color object was expected");
-        RaiseTypeError(mrb);
-    }
+    CheckMrbObject(mrb, ex_color, "Color", "Graphics.color");
 
     color = DATA_PTR(ex_color);
 
@@ -433,10 +417,7 @@ mrb_value self_viewport(mrb_state *mrb, mrb_value self) {
 
     mrb_get_args(mrb, "o", &ex_rect);
 
-    if(mrb_type(ex_rect) != MRB_TT_CDATA) {
-        IGNORE_RETURN SDL_SetError("A Rect object was expected");
-        RaiseTypeError(mrb);
-    }
+    CheckMrbObject(mrb, ex_rect, "Rect", "Graphics.viewport");
 
     f_rect = DATA_PTR(ex_rect);
     rect.x = f_rect->x;
@@ -489,10 +470,7 @@ mrb_value self_save(mrb_state *mrb, mrb_value self) {
 
     IGNORE_RETURN mrb_get_args(mrb, "S|o", &ex_path, &ex_rect);
 
-    if(mrb_type(ex_rect) != MRB_TT_CDATA) {
-        IGNORE_RETURN SDL_SetError("A Rect object was expected");
-        RaiseTypeError(mrb);
-    }
+    CheckMrbObject(mrb, ex_rect, "Rect", "Graphics.save");
 
     if(!mrb_nil_p(ex_rect)) {
         in_rect = DATA_PTR(ex_rect);
@@ -583,17 +561,19 @@ mrb_value self_presentation(mrb_state *mrb, mrb_value self) {
 
 PRIVATE
 mrb_value self_screenshot(mrb_state *mrb, mrb_value self) {
-    mrb_value      ex_rect = {0};
+    mrb_value      ex_dest = {0};
     mrb_value      image   = {0};
     struct RClass *klass   = {0};
     mrb_value      argv[1] = {0};
 
     UNUSED_ARGUMENT self;
 
-    IGNORE_RETURN mrb_get_args(mrb, "o", &ex_rect);
+    IGNORE_RETURN mrb_get_args(mrb, "o", &ex_dest);
+
+    CheckMrbObject(mrb, ex_dest, "Rect", "Graphics.screenshot");
 
     klass   = mrb_class_get(mrb, "Image");
-    argv[0] = ex_rect;
+    argv[0] = ex_dest;
     image   = mrb_obj_new(mrb, klass, 1, argv);
 
     return image;

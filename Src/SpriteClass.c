@@ -166,10 +166,7 @@ mrb_value initialize(mrb_state *mrb, mrb_value self) {
 
     IGNORE_RETURN mrb_get_args(mrb, "iio", &horz, &vert, &ex_image);
 
-    if(mrb_type(ex_image) != MRB_TT_CDATA) {
-        IGNORE_RETURN SDL_SetError("Sprite expected an Image object");
-        RaiseTypeError(mrb);
-    }
+    CheckMrbObject(mrb, ex_image, "Image", "Sprite");
 
     in_image = DATA_PTR(ex_image);
     sprite   = CreateSprite(in_image);

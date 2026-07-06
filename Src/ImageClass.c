@@ -122,10 +122,8 @@ mrb_value initialize(mrb_state *mrb, mrb_value self) {
         }
     }
     else {
-        if(mrb_type(ex_dest) != MRB_TT_CDATA) {
-            IGNORE_RETURN SDL_SetError("A Rect object was expected for Image");
-            RaiseTypeError(mrb);
-        }
+        CheckMrbObject(mrb, ex_dest, "Rect", "Image");
+
         in_dest = DATA_PTR(ex_dest);
         image   = CreateImageFromScreenshot(in_dest, private_renderer, color_key);
         if(!image) {

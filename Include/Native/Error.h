@@ -125,4 +125,19 @@ void SetErrorPhysfs(void) {
     IGNORE_RETURN SDL_SetError("%s", msg);
 }
 
+#define CHECK_VALUE_SET_ERROR(arg_name, obj_name) SDL_SetError("A %s object was expected for %s", arg_name, obj_name)
+
+PRIVATE SDL_INLINE
+void CheckMrbObject(mrb_state *mrb, mrb_value value, const char *arg_name, const char *obj_name) {
+    if(!mrb_data_p(value)) {
+        CHECK_VALUE_SET_ERROR(arg_name, obj_name);
+        RaiseTypeError(mrb);
+    }
+
+    if(SDL_strcmp(arg_name, DATA_TYPE(value)->struct_name) != 0) {
+        CHECK_VALUE_SET_ERROR(arg_name, obj_name);
+        RaiseTypeError(mrb);
+    }
+}
+
 #endif /*EXERROR_H*/
