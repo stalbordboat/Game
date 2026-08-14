@@ -50,6 +50,14 @@ bool InitWindowSubsystem(bool disable) {
         return false;
     }
 
+    status = SDL_SetRenderLogicalPresentation(renderer,
+                                              DEFAULT_WINDOW_WIDTH,
+                                              DEFAULT_WINDOW_HEIGHT,
+                                              SDL_LOGICAL_PRESENTATION_LETTERBOX);
+    if(!status) {
+        return false;
+    }
+
     return true;
 }
 

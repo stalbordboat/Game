@@ -548,15 +548,35 @@ mrb_value self_presentation(mrb_state *mrb, mrb_value self) {
 
     IGNORE_RETURN mrb_get_args(mrb, "|iii", &mode, &width, &height);
 
-    status = SDL_SetRenderLogicalPresentation(private_renderer,
-                                              width,
-                                              height,
-                                              mode);
+    status = SDL_SetRenderLogicalPresentation(private_renderer, width, height, mode);
     if(!status) {
         RaiseRuntimeError(mrb);
     }
 
     return mrb_nil_value();
+}
+
+PRIVATE
+mrb_value self_dest(mrb_state *mrb, mrb_value self) {
+    SDL_FRect      rect    = {0};
+    struct RClass *klass   = NULL;
+    mrb_value      argv[4] = {0};
+    bool           status  = false;
+
+    UNUSED_ARGUMENT self;
+
+    status = SDL_GetRenderLogicalPresentationRect(private_renderer, &rect);
+    if(!status) {
+        RaiseRuntimeError(mrb);
+    }
+
+    klass   = mrb_class_get(mrb, "Rect");
+    argv[0] = mrb_float_value(mrb, rect.x);
+    argv[1] = mrb_float_value(mrb, rect.y);
+    argv[2] = mrb_float_value(mrb, rect.w);
+    argv[3] = mrb_float_value(mrb, rect.h);
+
+    return mrb_obj_new(mrb, klass, 4, argv);
 }
 
 PRIVATE
@@ -633,6 +653,7 @@ void DefineGraphicsModule(mrb_state *mrb, SDL_Window *window, SDL_Renderer *rend
     mrb_define_module_function(mrb, graphics, "save",         self_save,         MRB_ARGS_REQ(1)|MRB_ARGS_OPT(1));
     mrb_define_module_function(mrb, graphics, "get_pixel",    self_get_pixel,    MRB_ARGS_REQ(2));
     mrb_define_module_function(mrb, graphics, "presentation", self_presentation, MRB_ARGS_OPT(3));
+    mrb_define_module_function(mrb, graphics, "dest",         self_dest,         MRB_ARGS_NONE());
     mrb_define_module_function(mrb, graphics, "screenshot",   self_screenshot,   MRB_ARGS_REQ(1)|MRB_ARGS_KEY(1, 1));
 
     RESTORE_ARENA(mrb);
