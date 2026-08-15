@@ -137,14 +137,23 @@ void DefineColorClass(mrb_state *mrb) {
 
     mrb_define_method(mrb, color, "initialize",      initialize,      MRB_ARGS_OPT(4));
     mrb_define_method(mrb, color, "initialize_copy", initialize_copy, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, color, "red",             get_r,           MRB_ARGS_NONE());
-    mrb_define_method(mrb, color, "green",           get_g,           MRB_ARGS_NONE());
-    mrb_define_method(mrb, color, "blue",            get_b,           MRB_ARGS_NONE());
-    mrb_define_method(mrb, color, "alpha",           get_a,           MRB_ARGS_NONE());
-    mrb_define_method(mrb, color, "red=",            set_r,           MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, color, "green=",          set_g,           MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, color, "blue=",           set_b,           MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, color, "alpha=",          set_a,           MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, color, "r",               get_r,           MRB_ARGS_NONE());
+    mrb_define_method(mrb, color, "g",               get_g,           MRB_ARGS_NONE());
+    mrb_define_method(mrb, color, "b",               get_b,           MRB_ARGS_NONE());
+    mrb_define_method(mrb, color, "a",               get_a,           MRB_ARGS_NONE());
+    mrb_define_method(mrb, color, "r=",              set_r,           MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, color, "g=",              set_g,           MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, color, "b=",              set_b,           MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, color, "a=",              set_a,           MRB_ARGS_REQ(1));
+
+    mrb_define_alias(mrb, color, "red",    "r");
+    mrb_define_alias(mrb, color, "green",  "g");
+    mrb_define_alias(mrb, color, "blue",   "b");
+    mrb_define_alias(mrb, color, "alpha",  "a");
+    mrb_define_alias(mrb, color, "red=",   "r=");
+    mrb_define_alias(mrb, color, "green=", "g=");
+    mrb_define_alias(mrb, color, "blue=",  "b=");
+    mrb_define_alias(mrb, color, "alpha=", "a=");
 
     RESTORE_ARENA(mrb);
 }

@@ -140,12 +140,17 @@ void DefineRectClass(mrb_state *mrb) {
     mrb_define_method(mrb, rect, "initialize_copy", initialize_copy, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, rect, "x",               get_x,           MRB_ARGS_NONE());
     mrb_define_method(mrb, rect, "y",               get_y,           MRB_ARGS_NONE());
-    mrb_define_method(mrb, rect, "width",           get_w,           MRB_ARGS_NONE());
-    mrb_define_method(mrb, rect, "height",          get_h,           MRB_ARGS_NONE());
+    mrb_define_method(mrb, rect, "w",               get_w,           MRB_ARGS_NONE());
+    mrb_define_method(mrb, rect, "h",               get_h,           MRB_ARGS_NONE());
     mrb_define_method(mrb, rect, "x=",              set_x,           MRB_ARGS_REQ(1));
     mrb_define_method(mrb, rect, "y=",              set_y,           MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, rect, "width=",          set_w,           MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, rect, "height=",         set_h,           MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, rect, "w=",              set_w,           MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, rect, "h=",              set_h,           MRB_ARGS_REQ(1));
+
+    mrb_define_alias(mrb, rect, "width",   "w");
+    mrb_define_alias(mrb, rect, "height",  "h");
+    mrb_define_alias(mrb, rect, "width=",  "w=");
+    mrb_define_alias(mrb, rect, "height=", "h=");
 
     RESTORE_ARENA(mrb);
 }
