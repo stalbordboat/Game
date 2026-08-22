@@ -2,7 +2,7 @@
 // Description: Internal Audio Subsystem Management
 #include "Internal.h"
 
-PRIVATE bool       no_audio                   = false;
+PRIVATE bool       audio_disabled             = false;
 PRIVATE MIX_Mixer *mixer                      = NULL;
 PRIVATE MIX_Track *tracks[MIXER_COUNT_TRACKS] = {0};
 
@@ -45,14 +45,14 @@ bool InitAudioSubsystem(bool disable) {
     SDL_AudioDeviceID devid  = SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK;
     SDL_AudioSpec     spec   = {0};
 
-    if(disable) {
+    audio_disabled = disable;
+
+    if(audio_disabled) {
         IGNORE_RETURN SDL_SetError("Audio Mode: %s", "(disabled)");
         SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "%s", SDL_GetError());
         IGNORE_RETURN SDL_ClearError();
         return true;
     }
-
-    no_audio = disable;
 
     status = SDL_InitSubSystem(SDL_INIT_AUDIO);
     if(!status) {
@@ -83,7 +83,7 @@ void QuitAudioSubsystem(void) {
 
 PUBLIC
 MIX_Mixer *Mixer(void) {
-    if(!no_audio) {
+    if(!audio_disabled) {
         SDL_assert(mixer);
     }
 
@@ -92,8 +92,8 @@ MIX_Mixer *Mixer(void) {
 
 PUBLIC
 MIX_Track **Tracks(void) {
-    if(!no_audio) {
-        SDL_assert(tracks);
+    if(!audio_disabled) {
+        SDL_assert(tracks != NULL);
     }
 
     return tracks;

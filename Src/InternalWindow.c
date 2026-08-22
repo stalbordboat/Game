@@ -4,9 +4,9 @@
 
 #define NORMAL_VSYNC 1
 
-PRIVATE SDL_Window   *window    = NULL;
-PRIVATE SDL_Renderer *renderer  = NULL;
-PRIVATE bool          no_window = false;
+PRIVATE SDL_Window   *window          = NULL;
+PRIVATE SDL_Renderer *renderer        = NULL;
+PRIVATE bool          window_disabled = false;
 
 // =============================================
 // Initialization and Deinitialization Functions
@@ -16,14 +16,14 @@ PUBLIC
 bool InitWindowSubsystem(bool disable) {
     bool status = false;
 
-    if(disable) {
+    window_disabled = disable;
+
+    if(window_disabled) {
         IGNORE_RETURN SDL_SetError("Window Mode: %s", "(disabled)");
         SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "%s", SDL_GetError());
         IGNORE_RETURN SDL_ClearError();
         return true;
     }
-
-    no_window = disable;
 
     status = SDL_InitSubSystem(SDL_INIT_VIDEO);
     if(!status) {
@@ -78,7 +78,7 @@ void QuitWindowSubsystem(void) {
 
 PUBLIC
 SDL_Window *Window(void) {
-    if(!no_window) {
+    if(!window_disabled) {
         SDL_assert(window);
     }
 
@@ -87,7 +87,7 @@ SDL_Window *Window(void) {
 
 PUBLIC
 SDL_Renderer *Renderer(void) {
-    if(!no_window) {
+    if(!window_disabled) {
         SDL_assert(renderer);
     }
 
