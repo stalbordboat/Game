@@ -21,7 +21,7 @@
 #define GAME_MINOR_VERSION "4"
 #define GAME_PATCH_VERSION "1"
 #define GAME_RELEASE_TYPE  ""
-#define GAME_COPYRIGHT     "MIT LICENSE - Copyright (c) 2026 Ralph St.Albord"
+#define GAME_COPYRIGHT     "MIT LICENSE - Copyright (c) 2026 Ralph Desir"
 
 #define PRIVATE static
 #define PUBLIC  extern
