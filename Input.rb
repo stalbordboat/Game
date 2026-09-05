@@ -1,6 +1,7 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Input Event Administration
-# NOT A PART OF THE API JUST USED FOR TESTING!!
+#
+# This Input module handles Keyboard and Gamepad events. It will automatically reopen any gamepad if it was unplugged.
 
 module Input
   @prev = {}
@@ -19,20 +20,16 @@ module Input
     end
   end
 
-  def self.create_data_from(data)
-    data.each_key { |key| eval "$input_#{key} = data['#{key}']" }
-  end
-
   def self.quit?
     @quit
   end
 
   def self.state(input)
-    instance_variable_get "@#{input}"
+    instance_variable_get("@#{input}")
   end
 
   def self.press?(button)
-    state button
+    state(button)
   end
 
   def self.trigger?(button)
@@ -44,9 +41,9 @@ module Input
   end
 
   def self.repeat?(button)
-    ivar = :"@#{button}"
-
+    ivar    = :"@#{button}"
     current = instance_variable_get(ivar)
+
     return false unless current
 
     held = @held[ivar] || 0
@@ -64,7 +61,9 @@ module Input
 
   def self.update_prev
     instance_variables.each do |ivar|
-      next unless ivar.to_s.start_with?('@button_') || ivar.to_s.start_with?('@key_')
+      prefix_button = ivar.to_s.start_with?('@button_')
+      prefix_key    = ivar.to_s.start_with?('@key_')
+      next unless prefix_button || prefix_key
 
       current  = instance_variable_get(ivar)
       previous = @prev[ivar]
@@ -87,7 +86,7 @@ module Input
     when Event::QUIT
       @quit = true
     when Event::KEY_DOWN
-      @quit = true if Event::Keyboard.key.eql? Event::Keyboard::KEY_ESC
+      @quit = true if Event::Keyboard.key == Event::Keyboard::KEY_ESC
     end
   end
 
@@ -143,7 +142,7 @@ module Input
       @device_which     = Event::GamepadDevice.which
       @gamepads       ||= [] 
 
-      @gamepads.push Gamepad.open @device_which
+      @gamepads.push(Gamepad.open(@device_which))
     end
   end
 
