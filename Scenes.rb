@@ -1,13 +1,11 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Scene Transition Handling
 #
-# Data can be passed around to different scenes using a Hash table, for exmaple:
-#
-# Scene manages the high-level flow control of the game.
+# Scene manages the high-level flow control of the game, for example:
 #
 # Scene.call next_scene, with_this: data
 #
-# When data is being passed back to a retuning scene, the header of Hash table should be called "from",
+# When data is being passed back to a returning scene, the header of the Hash table should be called "from",
 # and "from" denotes where the data is being returned from, for example:
 #
 # $scene_return_table = {from: SceneSave, image: @image}
