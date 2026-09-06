@@ -86,7 +86,7 @@ module Input
     when Event::QUIT
       @quit = true
     when Event::KEY_DOWN
-      @quit = true if Event::Keyboard.key == Event::Keyboard::KEY_ESC
+      @quit = Event::Keyboard.key.eql?(Event::Keyboard::KEY_ESC)
     end
   end
 
