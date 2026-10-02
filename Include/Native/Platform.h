@@ -1,4 +1,4 @@
-// MIT LICENSE - Copyright (c) Ralph Desir 2026
+// MIT LICENSE - Ralph St.Albord (c) 2026
 // Description: A file generated during the building process to get the correct platform.
 #ifndef GAME_PLATFORM_H
 #define GAME_PLATFORM_H

@@ -1,7 +1,9 @@
 # General Documentation:    https://ruby.github.io/rake/
 # Domain-Specific Language: https://ruby.github.io/rake/Rake/DSL.html
 
-require 'rake/clean'
+require          'rake/clean'
+require_relative 'Tasks/test.rb'
+require_relative 'Tasks/write_platform.rb'
 
 # =============
 # Command Names
@@ -53,6 +55,8 @@ desc 'Builds all source files'
 task :all => OBJECTS do
   # Link object files into the binary executable.
   sh "#{CC} #{CFLAGS} #{OBJECTS} -o #{BIN} #{ pkg_config 'libs' }"
+
+  write_platform
 end
 
 rule '.o' => '.c' do |file_task|
@@ -102,3 +106,12 @@ task :uninstall do |task|
 end
 
 CLEAN.include("#{SRC_DIRNAME}/*.o", BIN)
+
+Task::Test.new("../../#{BIN}") do |spec|
+  spec.check_symbols = 'Tests/CheckSymbols'
+  spec.environments  = 'Tests/Environments'
+  spec.window        = 'Tests/Window'
+  spec.audio         = 'Tests/Audio'
+  spec.events        = 'Tests/Events'
+  spec.general       = 'Tests/General'
+end
