@@ -1,0 +1,44 @@
+# Reference Documentation: https://ruby.github.io/rake/Rake/DSL.html
+
+require 'rake/clean'
+
+#=======================
+# Build Configuration
+#=======================
+
+CC      = ENV['CC'] || 'cc'
+CFLAGS  = [
+            '-fpic',
+            '-I ../../Include',
+          ].join(' ')
+SRC     = FileList[
+                    "*.c"
+                  ]
+OBJS    = SRC.ext('.o')
+PKGS    = 'game-mruby sdl3 physfs sdl3-mixer'
+BIN     = 'Test.so'
+
+#=============================
+# Tasks Advanced Configuration
+#=============================
+
+def pkg_config(opts)
+  `pkg-config --#{opts} #{PKGS}`
+end
+
+task :default => :build
+
+desc 'Build Native Extension'
+task :build => OBJS do
+  sh "#{CC} -shared -o #{BIN} #{OBJS} #{pkg_config('libs')}"
+end
+
+rule '.o' => '.c' do |file_task|
+  src_path = file_task.source
+  obj_path = "#{File.basename(src_path, '.c')}.o"
+
+  sh "#{CC} #{CFLAGS} -c #{src_path} -o #{obj_path} #{pkg_config('cflags')}"
+end
+
+# It would be a bit annoying to have to keep all the object files, when all you want is the shared object.
+CLEAN.include('*.o')

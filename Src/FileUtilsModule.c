@@ -157,7 +157,7 @@ mrb_value self_user_directory(mrb_state *mrb, mrb_value self) {
     if(!path) {
         // I'm assuming SDL sets the error(because they usually do), although that's not
         // stated in the docs:
-        // https://wiki.libsdl.org/SDL3/SDL_GetPrefPath.
+        // https://wiki.libsdl.org/SDL3/SDL_GetUserFolder.
         RaiseRuntimeError(mrb);
     }
     len  = SDL_strlen(path);
@@ -229,7 +229,7 @@ mrb_value self_touch(mrb_state *mrb, mrb_value self) {
         IGNORE_RETURN SDL_ClearError();
     }
 
-    file    = OpenFile(in_path, mode);
+    file = OpenFile(in_path, mode);
     if(!file) {
         RaiseRuntimeError(mrb);
     }

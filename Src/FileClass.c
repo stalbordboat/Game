@@ -362,7 +362,7 @@ mrb_value write_64_be(mrb_state *mrb, mrb_value self) {
 
     IGNORE_RETURN mrb_get_args(mrb, "i", &val);
 
-    status = WriteFileS64LE(file, (Sint64)val);
+    status = WriteFileS64BE(file, (Sint64)val);
     if(!status) {
         RaiseRuntimeError(mrb);
     }
