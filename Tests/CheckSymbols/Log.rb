@@ -1,0 +1,10 @@
+# MIT LICENSE - Copyright (c) Ralph Desir 2026
+# Description: Test the existence of methods and attributes.
+
+found_at = 'CheckSymbols/Log.rb:'
+
+%w(
+info
+warn
+error
+).response_tests found_at, Log
