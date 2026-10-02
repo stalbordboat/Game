@@ -238,8 +238,10 @@ void DefineMathModule(mrb_state *mrb) {
 
     math = mrb_define_module(mrb, "Math");
 
-    mrb_define_const(mrb, math, "PI", mrb_float_value(mrb, PI));
-    mrb_define_const(mrb, math, "E",  mrb_float_value(mrb, E));
+    mrb_define_const(mrb, math, "PI",      mrb_float_value(mrb, PI));
+    mrb_define_const(mrb, math, "E",       mrb_float_value(mrb, E));
+    mrb_define_const(mrb, math, "INT_MAX", mrb_int_value(mrb, MRB_INT_MAX));
+    mrb_define_const(mrb, math, "INT_MIN", mrb_int_value(mrb, MRB_INT_MIN));
 
     mrb_define_module_function(mrb, math, "acos",   self_acos,   MRB_ARGS_REQ(1));
     mrb_define_module_function(mrb, math, "asin",   self_asin,   MRB_ARGS_REQ(1));
@@ -254,7 +256,7 @@ void DefineMathModule(mrb_state *mrb) {
     mrb_define_module_function(mrb, math, "fmod",   self_fmod,   MRB_ARGS_REQ(2));
     mrb_define_module_function(mrb, math, "log",    self_log,    MRB_ARGS_REQ(1));
     mrb_define_module_function(mrb, math, "log10",  self_log10,  MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, math, "pow",    self_pow,    MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, math, "pow",    self_pow,    MRB_ARGS_REQ(2));
     mrb_define_module_function(mrb, math, "round",  self_round,  MRB_ARGS_REQ(1));
     mrb_define_module_function(mrb, math, "lround", self_lround, MRB_ARGS_REQ(1));
     mrb_define_module_function(mrb, math, "sin",    self_sin,    MRB_ARGS_REQ(1));

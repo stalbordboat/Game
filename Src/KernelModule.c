@@ -18,7 +18,7 @@ mrb_value assert_true(mrb_state *mrb, mrb_value self) {
     value_c = mrb_funcall(mrb, value_a, "eql?", 1, value_b);
     cond    = mrb_bool(value_c);
     if(!cond) {
-        IGNORE_RETURN SDL_SetError("FAILED TEST: %s", mrb_str_to_cstr(mrb, label));
+        IGNORE_RETURN SDL_SetError("%s", mrb_str_to_cstr(mrb, label));
         RaiseRuntimeError(mrb);
     }
 
@@ -113,6 +113,16 @@ mrb_value open_url(mrb_state *mrb, mrb_value self) {
 }
 
 PRIVATE
+mrb_value clear_error(mrb_state *mrb, mrb_value self) {
+    UNUSED_ARGUMENT mrb;
+    UNUSED_ARGUMENT self;
+
+    IGNORE_RETURN SDL_ClearError();
+
+    return mrb_nil_value();
+}
+
+PRIVATE
 mrb_value get_argv_ary(mrb_state *mrb, int argc, char **argv) {
     mrb_value ary = {0};
     mrb_value val = {0};
@@ -150,6 +160,7 @@ void ExtendKernelModule(mrb_state *mrb, int argc, char *argv[]) {
     mrb_define_method(mrb, kernel, "mrb_load",          mrb_load,             MRB_ARGS_REQ(1));
     mrb_define_method(mrb, kernel, "native_load_basic", native_load_basic,    MRB_ARGS_REQ(1));
     mrb_define_method(mrb, kernel, "open_url",          open_url,             MRB_ARGS_REQ(1));
+    mrb_define_method(mrb, kernel, "clear_error",       clear_error,          MRB_ARGS_NONE());
 
     IGNORE_RETURN mrb_load_irep(mrb, Kernel_symbol);
 

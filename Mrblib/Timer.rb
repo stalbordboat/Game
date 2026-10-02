@@ -80,6 +80,11 @@ class ::Timer
   end
 
   def average_fps
+    ticks = self.ticks
+
+    # Protecting against NaN.
+    return 0 if ticks <= 0
+
     fps = (@counted_frames / (self.ticks / 1000.to_f))
 
     fps = 0 if fps > ABSURD_FPS
