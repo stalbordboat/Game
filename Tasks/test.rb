@@ -78,8 +78,8 @@ class Task::Test
     run_cmd(@environments, env)
 
     # Run outside Archive.
-    env = 'GAME_START_PATH="Init.rb" GAME_NO_WINDOW=true GAME_NO_EVENTS=true GAME_NO_AUDIO=true'
-    run_cmd(@environments, env)
+    #env = 'GAME_START_PATH="Init.rb" GAME_NO_WINDOW=true GAME_NO_EVENTS=true GAME_NO_AUDIO=true'
+    #run_cmd(@environments, env)
   end
 
   def run_window

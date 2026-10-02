@@ -31,6 +31,14 @@
 # skip, this method logs a message and returns true, effectively skipping a test.
 #
 # simulate_main_loop, Runs a block of code between Graphics.update and Graphics.draw.
+#
+# The Float class comes equipped with a method for testing the euqality of a value called approx?.
+# It checks whether two floating-point numbers are approximately equal within a small tolerance, called epsilon.
+#
+# The Object is equipped with a verity of type testing methods: bool?, int?, float?, string?, array?, and hash?.
+#
+# The Integer class has greater_than? and less_than? methods to make the API more consistent with the eql? method that is
+# frequently used in these tests because I think it makes things clearer than the typical "==" syntax.
 
 def send_test(found_at: '', within: nil)
   begin
@@ -103,13 +111,6 @@ module Enumerable
   end
 end
 
-class Float
-  def approx?(other, epsilon = 1e-6)
-    (self - other).abs < epsilon
-  end
-end
-
-# TODO: Document This!!!
 class Object
   def bool?
     self.kind_of?(TrueClass) || self.kind_of?(FalseClass)
@@ -136,7 +137,6 @@ class Object
   end
 end
 
-# TODO: Document This!!!
 class Integer
   def greater_than?(value)
     self > value
@@ -144,5 +144,11 @@ class Integer
 
   def less_than?(value)
     self < value
+  end
+end
+
+class Float
+  def approx?(other, epsilon = 1e-6)
+    (self - other).abs < epsilon
   end
 end
