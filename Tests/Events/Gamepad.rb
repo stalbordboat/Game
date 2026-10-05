@@ -1,7 +1,7 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Test the API of the Event subsystem.
 
-path            = 'Events/Gamepad.rb'
+PATH            = 'Events/Gamepad.rb'
 # Name + buttons. This part never changes.
 PARTIAL_MAPPING = 'Generic Gamepad,a:b0,b:b1,x:b2,y:b3,start:b7,back:b6,leftx:a0,lefty:a1'.freeze
 GUID            = '03000000abcd00001234000000000000'.freeze
@@ -21,18 +21,47 @@ def test_all_gamepads
   end
 end
 
-send_test :found_at => path, :within => :check_ids? do
-  Gamepad.ids.kind_of? Array
+send_test :found_at => PATH, :within_block => :constants_defined? do
+  constants = %w(
+                  RUMBLE_MAX
+                  RUMBLE_MIN
+                  POWERSTATE_UNKNOWN
+                  POWERSTATE_ON_BATTERY
+                  POWERSTATE_NO_BATTERY
+                  POWERSTATE_CHARGING
+                  POWERSTATE_CHARGED
+                  CONNECTION_UNKNOWN
+                  CONNECTION_WIRED
+                  CONNECTION_WIRELESS
+                )
+
+  constants.constants_defined? :within => Gamepad
+end
+
+send_test :found_at => PATH, :within_block => :class_methods_defined? do
+  methods = %w(
+                ids
+                name
+                add_mapping
+                reload_mappings
+                open
+              )
+
+  methods.methods_defined? :within => Gamepad
+end
+
+send_test :found_at => PATH, :within_block => :check_ids? do
+  Gamepad.ids.kind_of?(Array)
 end
 
 if available?
 
-  send_test :found_at => path, :within => :check_name? do
+  send_test :found_at => PATH, :within_block => :check_name? do
     status = false
     ids    = Gamepad.ids
 
     ids.each do |id|
-      if Gamepad.name(id).kind_of? String
+      if Gamepad.name(id).kind_of?(String)
         return false if Gamepad.name(id).empty?
       end
     end
@@ -41,15 +70,15 @@ if available?
     true
   end
 
-  send_test :found_at => path, :within => :check_mappings? do
-    status_added   = Gamepad.add_mapping(MAPPING).eql? :added
-    status_updated = Gamepad.add_mapping(MAPPING).eql? :updated
+  send_test :found_at => PATH, :within_block => :check_mappings? do
+    status_added   = Gamepad.add_mapping(MAPPING).eql?(:added)
+    status_updated = Gamepad.add_mapping(MAPPING).eql?(:updated)
     status_reload  = Gamepad.reload_mappings.nil?
 
     status_added && status_updated && status_reload
   end
 
-  send_test :found_at => path, :within => :opening_and_closing? do
+  send_test :found_at => PATH, :within_block => :opening_and_closing? do
     gamepads     = []
     status_open  = false
     status_close = false
@@ -65,7 +94,48 @@ if available?
     status_open && status_close
   end
 
-  send_test :found_at => path, :within => :name? do
+  send_test :found_at => PATH, :within_block => :instance_methods_defined? do
+    gamepad = Gamepad.open(Gamepad.ids.first)
+    status  = true
+
+    methods = %w(
+                  close
+                  closed?
+                  name
+                  rumble?
+                  rumble
+                  rumble_triggers?
+                  rumble_triggers
+                  led?
+                  led
+                  power_state
+                  percent
+                  connected?
+                  connection_state
+                  guid
+                )
+
+    status = methods.methods_defined? :within => gamepad
+
+    gamepad.close
+
+    status
+  end
+
+  send_test :found_at => PATH, :within_block => :attributes_defined? do
+    gamepad = Gamepad.open(Gamepad.ids.first)
+    status  = true
+
+    methods = %w(mapping mapping=)
+
+    status = methods.attributes_defined? :within => gamepad
+
+    gamepad.close
+
+    status
+  end
+
+  send_test :found_at => PATH, :within_block => :name? do
     status = nil
 
     test_all_gamepads { |gamepad| status = !gamepad.name.empty? if gamepad.name.kind_of?(String) }
@@ -73,7 +143,7 @@ if available?
     status
   end
 
-  send_test :found_at => path, :within => :rumble? do
+  send_test :found_at => PATH, :within_block => :rumble? do
     status = true
 
     test_all_gamepads { |gamepad| gamepad.rumble(Gamepad::RUMBLE_MIN, Gamepad::RUMBLE_MIN, 8).nil? if gamepad.rumble? }
@@ -81,7 +151,7 @@ if available?
     status
   end
 
-  send_test :found_at => path, :within => :rumble_triggers? do
+  send_test :found_at => PATH, :within_block => :rumble_triggers? do
     status = true
     left   = Gamepad::RUMBLE_MIN
     right  = Gamepad::RUMBLE_MIN
@@ -91,7 +161,7 @@ if available?
     status
   end
 
-  send_test :found_at => path, :within => :led? do
+  send_test :found_at => PATH, :within_block => :led? do
     status = true
 
     test_all_gamepads { |gamepad| gamepad.led.nil? if gamepad.led? }
@@ -99,7 +169,7 @@ if available?
     status
   end
 
-  send_test :found_at => path, :within => :power_state? do
+  send_test :found_at => PATH, :within_block => :power_state? do
     status = true
 
     test_all_gamepads do |gamepad|
@@ -115,7 +185,7 @@ if available?
     status
   end
 
-  send_test :found_at => path, :within => :percent? do
+  send_test :found_at => PATH, :within_block => :percent? do
     status  = true
     state   = Gamepad::POWERSTATE_UNKNOWN
     percent = 0
@@ -135,7 +205,7 @@ if available?
     status
   end
 
-  send_test :found_at => path, :within => :connection_state? do
+  send_test :found_at => PATH, :within_block => :connection_state? do
     status = true
 
     test_all_gamepads do |gamepad|
@@ -148,7 +218,7 @@ if available?
     status
   end
 
-  send_test :found_at => path, :within => :mapping? do
+  send_test :found_at => PATH, :within_block => :mapping? do
     status_initial_mapping = true
     status_set_mapping     = true
 
@@ -161,7 +231,7 @@ if available?
     status_initial_mapping && status_set_mapping
   end
 
-  send_test :found_at => path, :within => :guid? do
+  send_test :found_at => PATH, :within_block => :guid? do
     status = true
 
     test_all_gamepads do |gamepad|

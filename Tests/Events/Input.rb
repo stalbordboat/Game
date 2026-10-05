@@ -1,9 +1,9 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Test the API of the Event subsystem.
 
-path = 'Events/Input.rb'
+PATH = 'Events/Input.rb'
 
-send_test :found_at => path, :within => :update? do
+send_test :found_at => PATH, :within_block => :update? do
   count  = 0
   limit  = 8
   status = false
