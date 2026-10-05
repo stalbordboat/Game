@@ -1,36 +1,63 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
-# Description: Test the audio subsystem.
+# Description: Test the Audio subsystem.
 
-path  = 'Audio/Sound.rb:'
+PATH  = 'Audio/Sound.rb:'
 sound = nil
 
-send_test :found_at => path, :within => :new do
-  sound = Sound.new 'stereo-test.wav'
+send_test :found_at => PATH, :within_block => :constants_defined? do
+  constants = %w(
+                  PLAY_ONCE
+                  PLAY_INFINITE
+                )
 
-  sound.kind_of? Sound
+  constants.constants_defined? :within => Sound
 end
 
-# The Sound object can't be cloned so calling clone or dup will
-# raise an exception. Since this is expected behavior, it must
-# be treated as a passing test!
-send_test :found_at => path, :within => :clone do
+send_test :found_at => PATH, :within_block => :new? do
+  sound = Sound.new('stereo-test.wav')
+
+  sound.kind_of?(Sound)
+end
+
+send_test :found_at => PATH, :within_block => :clone? do
   recover? { sound.clone }
 end
 
-send_test :found_at => path, :within => :volume do
+send_test :found_at => PATH, :within_block => :instance_methods_defined? do
+  methods = %w(
+                play
+                fadein
+                fadeout
+              )
+
+  methods.methods_defined? :within => sound
+end
+
+send_test :found_at => PATH, :within_block => :attributes_defined? do
+  attributes = %w(
+                  volume
+                  volume=
+                  track
+                  track=
+                )
+
+  attributes.attributes_defined? :within => sound
+end
+
+send_test :found_at => PATH, :within_block => :volume? do
   sound.volume = 0
 
-  sound.volume.eql? 0.0
+  sound.volume.eql?(0.0)
 end
 
 # Testing the sound is being played and stopped.
-send_test :found_at => path, :within => :play_once do
+send_test :found_at => PATH, :within_block => :play_once? do
   count       = 0
   max         = 1
   status_play = false
   status_stop = false
 
-  sound.play Sound::PLAY_ONCE
+  sound.play(Sound::PLAY_ONCE)
 
   simulate_main_loop do
     status_play = sound.playing?
@@ -45,7 +72,7 @@ send_test :found_at => path, :within => :play_once do
 end
 
 # Testing if pausing and resuming works.
-send_test :found_at => path, :within => :pause do
+send_test :found_at => PATH, :within_block => :pause? do
   count         = 0
   max           = 1
   status_pause  = false
@@ -75,10 +102,9 @@ send_test :found_at => path, :within => :pause do
   status_pause && status_resume
 end
 
-# The Sound object's track attribute must get what was set.
-send_test :found_at => path, :within => :track do
-  sound_vocals = Sound.new 'Vocals.wav'
-  sound_drums  = Sound.new 'Drums.wav'
+send_test :found_at => PATH, :within_block => :track? do
+  sound_vocals = Sound.new('Vocals.wav')
+  sound_drums  = Sound.new('Drums.wav')
 
   sound_vocals.track = 0
   sound_drums.track  = 1
@@ -86,8 +112,7 @@ send_test :found_at => path, :within => :track do
   sound_vocals.track.eql?(0) && sound_drums.track.eql?(1)
 end
 
-# Testing fade-in and fade-out playback.
-send_test :found_at => path, :within => :fades do
+send_test :found_at => PATH, :within_block => :fade_in_and_out? do
   count          = 0
   status_fadein  = false
   status_fadeout = false
