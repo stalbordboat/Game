@@ -3,10 +3,10 @@
 
 path = 'Environments/NoEvents.rb'
 
-send_test :found_at => path, :within => :env_no_events do
+send_test :found_at => path, :within_block => :env_no_events? do
   !Env['GAME_NO_EVENTS'].nil?
 end
 
-send_test :found_at => path, :within => :no_events do
+send_test :found_at => path, :within_block => :no_events? do
   recover? { Event.fetching? }
 end
