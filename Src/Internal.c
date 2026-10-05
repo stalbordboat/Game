@@ -179,7 +179,11 @@ bool RunGame(void) {
         IGNORE_RETURN mrb_load_string(mrb, script);
     }
     else {
+        SAVE_ARENA(mrb);
+
         IGNORE_RETURN mrb_load_irep_buf(mrb, script, size);
+
+        RESTORE_ARENA(mrb);
     }
 
     FreeBuffer(script);
