@@ -1,56 +1,49 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Test the API of the Window subsystem.
 
-path     = 'Window/Graphics.rb:'
-savefile = 'Test-Save.bmp'
+PATH     = 'Window/Graphics.rb:'
+SAVEFILE = 'Test-Save.bmp'
 
-# The default state of the Graphics module is expected to be hidden.
-send_test :found_at => path, :within => :default_hidden do
+send_test :found_at => PATH, :within_block => :default_hidden? do
   Graphics.hidden?
 end
 
-# If the Graphics module is shown then the hidden state should be false.
-send_test :found_at => path, :within => :shown do
+send_test :found_at => PATH, :within_block => :shown? do
   Graphics.show
 
   !Graphics.hidden?
 end
 
-# The Graphics module's should be the default size.
-send_test :found_at => path, :within => :default_size do
+send_test :found_at => PATH, :within_block => :default_size? do
   Graphics.width.eql?(DEFAULT_WINDOW_WIDTH) &&
   Graphics.height.eql?(DEFAULT_WINDOW_HEIGHT)
 end
 
-# The Graphics module's size should be equal to the changed size.
-send_test :found_at => path, :within => :change_size do
+send_test :found_at => PATH, :within_block => :change_size? do
   width  = 640
   height = 480
 
-  Graphics.size width, height
+  Graphics.size(width, height)
 
   Graphics.width.eql?(width) &&
   Graphics.height.eql?(height)
 end
 
-# If success :title is expected to be nil.
-send_test :found_at => path, :within => :title do
+send_test :found_at => PATH, :within_block => :title? do
   Graphics.title('Test').nil?
 end
 
-# If the Graphics module is set to fullscreen, then the fullscreen state should be true.
-send_test :found_at => path, :within => :fullscreen do
-  Graphics.fullscreen true
+send_test :found_at => PATH, :within_block => :fullscreen? do
+  Graphics.fullscreen(true)
 
   status = Graphics.fullscreen?
 
-  Graphics.fullscreen false
+  Graphics.fullscreen(false)
 
   status
 end
 
-# The Graphics module's name should be the name of an underlying graphics API.
-send_test :found_at => path, :within => :name do
+send_test :found_at => PATH, :within_block => :name? do
   name = Graphics.name
 
   # I'm kind of just guessing with these names.
@@ -60,45 +53,42 @@ send_test :found_at => path, :within => :name do
   name.eql?('direct3d')
 end
 
-# The maximum size of an image that the Graphics module can load must be more than zero.
-send_test :found_at => path, :within => :max_size do
+send_test :found_at => PATH, :within_block => :max_size? do
   Graphics.max_size > 0
 end
 
-# If successfully set viewport is expected to be nil.
-send_test :found_at => path, :within => :viewport do
+send_test :found_at => PATH, :within_block => :viewport? do
   dest = Rect.new(0, 0, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
 
   Graphics.viewport(dest).nil?
 end
 
-# If vsync is turned of, then the vsync state must be false.
-send_test :found_at => path, :within => :vsync do
-  Graphics.vsync false
+send_test :found_at => PATH, :within_block => :vsync? do
+  Graphics.vsync(false)
 
   status = Graphics.vsync?
 
-  Graphics.vsync true
+  Graphics.vsync(true)
 
   !status
 end
 
 # If rect is filled in with a particular color, then we must be able
 # to get that color from a pixel within the boundries of that rect.
-send_test :found_at => path, :within => :fill_rect do
-  dest      = Rect.new  0, 0, 255, 255
+send_test :found_at => PATH, :within_block => :fill_rect? do
+  dest      = Rect.new(0, 0, 255, 255)
   color     = Color.new
   color.red = 127
   count     = 0
   status    = false
 
   simulate_main_loop do
-    Graphics.fill_rect dest, color
+    Graphics.fill_rect(dest, color)
 
-    pixel  = Graphics.get_pixel dest.x, dest.y
-    status = pixel.red.eql? 127
+    pixel  = Graphics.get_pixel(dest.x, dest.y)
+    status = pixel.red.eql?(127)
 
-    break if count.eql? 1
+    break if count.eql?(1)
 
     count += 1
   end
@@ -108,7 +98,7 @@ end
 
 # If point is filled in with a particular color, then we must be able
 # to get that color from a pixel within the boundries of that point.
-send_test :found_at => path, :within => :fill_point do
+send_test :found_at => PATH, :within_block => :fill_point? do
   x         = 0
   y         = 0
   color     = Color.new
@@ -117,12 +107,12 @@ send_test :found_at => path, :within => :fill_point do
   status    = false
 
   simulate_main_loop do
-    Graphics.fill_point x, y, color
+    Graphics.fill_point(x, y, color)
 
-    pixel  = Graphics.get_pixel x, y
-    status = pixel.red.eql? 127
+    pixel  = Graphics.get_pixel(x, y)
+    status = pixel.red.eql?(127)
 
-    break if count.eql? 1
+    break if count.eql?(1)
 
     count += 1
   end
@@ -132,7 +122,7 @@ end
 
 # If line is filled in with a particular color, then we must be able
 # to get that color from a pixel within the boundries of that line.
-send_test :found_at => path, :within => :fill_line do
+send_test :found_at => PATH, :within_block => :fill_line? do
   x1        = 0
   y1        = 0
   x2        = 1
@@ -143,12 +133,12 @@ send_test :found_at => path, :within => :fill_line do
   status    = false
 
   simulate_main_loop do
-    Graphics.fill_line x1, y1, x2, y2, color
+    Graphics.fill_line(x1, y1, x2, y2, color)
 
-    pixel  = Graphics.get_pixel x1, y2
-    status = pixel.red.eql? 127
+    pixel  = Graphics.get_pixel(x1, y2)
+    status = pixel.red.eql?(127)
 
-    break if count.eql? 1
+    break if count.eql?(1)
 
     count += 1
   end
@@ -156,8 +146,8 @@ send_test :found_at => path, :within => :fill_line do
   status
 end
 
-send_test :found_at => path, :within => :screenshot do
-  dest   = Rect.new 0, 0, 255, 255
+send_test :found_at => PATH, :within_block => :screenshot? do
+  dest   = Rect.new(0, 0, 255, 255)
   status = false
 
   simulate_main_loop do
@@ -173,13 +163,11 @@ send_test :found_at => path, :within => :screenshot do
   status
 end
 
-# If the rendering state was successfully saved then, it's expected to be nil.
-send_test :found_at => path, :within => :save do
-  path   = savefile
+send_test :found_at => PATH, :within_block => :save? do
   status = false
 
   simulate_main_loop do
-    status = Graphics.save(path).nil?
+    status = Graphics.save(SAVEFILE).nil?
 
     break
   end
@@ -187,12 +175,10 @@ send_test :found_at => path, :within => :save do
   status
 end
 
-# If a sprite updates successfully then it's expected to be nil.
-send_test :found_at => path, :within => :sprite do
-  path   = savefile
+send_test :found_at => PATH, :within_block => :sprite? do
   status = nil
-  image  = Image.new path
-  sprite = Sprite.new 1, 1, image
+  image  = Image.new(SAVEFILE)
+  sprite = Sprite.new(1, 1, image)
 
   simulate_main_loop do
     status = sprite.update.nil?
@@ -202,14 +188,13 @@ send_test :found_at => path, :within => :sprite do
   status
 end
 
-# If a camera updates successfully then it's expected to be nil.
-send_test :found_at => path, :within => :camera do
+send_test :found_at => PATH, :within_block => :camera? do
   ids = Camera.ids
 
   unless ids.empty?
     first  = ids.first
-    dest   = Rect.new    0, 0, 255, 255
-    camera = Camera.open first, dest
+    dest   = Rect.new(0, 0, 255, 255)
+    camera = Camera.open(first, dest)
     status = nil
 
     simulate_main_loop do
@@ -226,17 +211,14 @@ send_test :found_at => path, :within => :camera do
   true
 end
 
-# If the Graphics module's blend was set successfully it's expected to be equal to the value set.
-send_test :found_at => path, :within => :blend do
-  Graphics.blend(Graphics::BLEND_ALPHA).eql? Graphics::BLEND_ALPHA
+send_test :found_at => PATH, :within_block => :blend? do
+  Graphics.blend(Graphics::BLEND_ALPHA).eql?(Graphics::BLEND_ALPHA)
 end
 
-# If the Graphics module's color was set successfully it's expected to be a Color.
-send_test :found_at => path, :within => :color do
-  Graphics.color(Color.new).kind_of? Color
+send_test :found_at => PATH, :within_block => :color? do
+  Graphics.color(Color.new).kind_of?(Color)
 end
 
-# If the Graphics module's presentation state was set successfully it's expected to be nil.
-send_test :found_at => path, :within => :presentation do
+send_test :found_at => PATH, :within_block => :presentation? do
   Graphics.presentation.nil?
 end
