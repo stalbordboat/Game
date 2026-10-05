@@ -54,7 +54,7 @@ end
 desc 'Builds all source files'
 task :all => OBJECTS do
   # Link object files into the binary executable.
-  sh "#{CC} #{CFLAGS} #{OBJECTS} -o #{BIN} #{ pkg_config 'libs' }"
+  sh "#{CC} #{CFLAGS} #{OBJECTS} -o #{BIN} #{ pkg_config('libs') }"
 
   write_platform
 end
@@ -66,7 +66,7 @@ rule '.o' => '.c' do |file_task|
   obj_path = "#{dirname}/#{obj}"
 
   # Compile individual object files.
-  sh "#{CC} #{CFLAGS} -c #{src} -o #{obj_path} #{ pkg_config 'cflags' }"
+  sh "#{CC} #{CFLAGS} -c #{src} -o #{obj_path} #{ pkg_config('cflags') }"
 end
 
 desc 'Compile a Ruby file'
@@ -87,9 +87,9 @@ desc 'Moves install files to the install path'
 task :install do |task|
   verbose = !task.application.options.silent
 
-  FileUtils.install BIN, BIN_PREFIX, verbose: verbose
+  FileUtils.install(BIN, BIN_PREFIX, verbose: verbose)
 
-  FileUtils.cp_r NATIVE_PATH, INC_PREFIX, verbose: verbose
+  FileUtils.cp_r(NATIVE_PATH, INC_PREFIX, verbose: verbose)
 end
 
 desc 'Removes install files from the install path'
@@ -97,11 +97,11 @@ task :uninstall do |task|
   verbose = !task.application.options.silent
 
   FileUtils.cd BIN_PREFIX, verbose: verbose do
-    FileUtils.rm_f BIN, verbose: verbose
+    FileUtils.rm_f(BIN, verbose: verbose)
   end
 
   FileUtils.cd INC_PREFIX, verbose: verbose do
-    FileUtils.rm_rf NATIVE_DIRNAME, verbose: verbose
+    FileUtils.rm_rf(NATIVE_DIRNAME, verbose: verbose)
   end
 end
 
