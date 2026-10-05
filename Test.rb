@@ -5,13 +5,34 @@
 #
 # Example: Checking if the symbols that represent methods are actually defined. 
 #
-# found_at = 'CheckSymbols/Rect.rb:'
-# rect     = Rect.new
+# PATH = 'Window/Rect.rb:'
 #
-# %w(x y w h width height).response_tests found_at, rect
+# send_test :found_at => PATH, :within_block => :attributes_defined? do
+#  rect = Rect.new
+#
+#  attributes = %w(
+#                    x
+#                    y
+#                    w
+#                    h
+#                    width
+#                    height
+#                    x=
+#                    y=
+#                    w=
+#                    h=
+#                    width=
+#                    height=
+#                 )
+#
+#  attributes.attributes_defined? :within => rect
+#end
 #
 # Enumerable
-# Description: This is mixed-in so that other classes can use its batch testing methods(e.g. response_tests, etc.).
+# Description: This is mixed-in so that other classes can use its batch testing methods(e.g. attributes_defined?, etc.).
+#
+# constants_defined?, methods_defined?, and attributes_defined? returns true if all of the symbols are defined, and false if
+# just one is not.
 #
 # Float
 # Description: It checks whether two floating-point numbers are approximately equal within a small tolerance, called epsilon.
@@ -40,13 +61,13 @@
 # The Integer class has greater_than? and less_than? methods to make the API more consistent with the eql? method that is
 # frequently used in these tests because I think it makes things clearer than the typical "==" syntax.
 
-def send_test(found_at: '', within: nil)
+def send_test(found_at: '', within_block: nil)
   begin
     value_a = yield
   rescue => e
     error_message = e.message
   end
-  desc    = "found_at => #{found_at} within => #{within} #{error_message}"
+  desc    = "found_at => #{found_at} within => #{within_block}: #{error_message}"
   value_b = true
 
   assert_true(desc, value_a, value_b)
@@ -90,25 +111,41 @@ def simulate_main_loop
 end
 
 module Enumerable
-  def const_defined_tests(path, obj)
-    self.each do |s|
-      value_a = obj.const_defined?(s)
-      value_b = true
-      desc    = "#{path} #{obj}.const_defined? #{s.inspect}"
+  def constants_defined?(within: nil)
+    status = nil
 
-      assert_true(desc, value_a, value_b)
+    self.each do |s|
+      value_a = within.const_defined?(s)
+      value_b = true
+      status  = value_a.eql?(value_b)
+
+      if status.eql?(false)
+        Log.error("Constant Not Defined: #{s.inspect}")
+        break
+      end
     end
+
+    status
   end
 
-  def response_tests(path, obj)
-    self.each do |s|
-      value_a = obj.respond_to?(s.to_sym)
-      value_b = true
-      desc    = "#{path} #{obj}.respond_to? #{s.inspect}"
+  def methods_defined?(within: nil)
+    status = nil
 
-      assert_true(desc, value_a, value_b)
+    self.each do |s|
+      value_a = within.respond_to?(s.to_sym)
+      value_b = true
+      status  = value_a.eql?(value_b)
+
+      if status.eql?(false)
+        Log.error("Method Not Defined: #{s.inspect}")
+        break
+      end
     end
+
+    status
   end
+
+  alias :attributes_defined? :methods_defined?
 end
 
 class Object
