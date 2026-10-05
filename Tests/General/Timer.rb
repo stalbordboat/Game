@@ -1,7 +1,7 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Test the API of the General subsystem.
 
-path = 'General/Timer.rb'
+PATH = 'General/Timer.rb'
 
 # Methods used in testing.
 
@@ -29,17 +29,35 @@ end
 
 # Constants
 
-send_test :found_at => path, :within => :self_constants_types? do
+send_test :found_at => PATH, :within_block => :constants_defined? do
+  constants = %w(ABSURD_FPS)
+
+  constants.constants_defined? :within => Timer
+end
+
+send_test :found_at => PATH, :within_block => :self_constants_types? do
   Timer::ABSURD_FPS.int?
 end
 
-send_test :found_at => path, :within => :constants_values? do
+send_test :found_at => PATH, :within_block => :constants_values? do
   Timer::ABSURD_FPS.eql?(2000000)
 end
 
 # Class Methods
 
-send_test :found_at => path, :within => :self_methods_types? do
+send_test :found_at => PATH, :within_block => :class_methods_defined? do
+  methods = %w(
+                wait
+                ticks
+                counter
+                frequency
+                benchmark
+              )
+
+  methods.methods_defined? :within => Timer
+end
+
+send_test :found_at => PATH, :within_block => :self_methods_types? do
   Timer.wait(0).nil?     &&
   Timer.ticks.int?       &&
   Timer.counter.int?     &&
@@ -48,13 +66,13 @@ send_test :found_at => path, :within => :self_methods_types? do
 end
 
 # Timer.wait, Timer.counter, and Timer.frequency are all tested here.
-send_test :found_at => path, :within => :self_benchmark_value? do
+send_test :found_at => PATH, :within_block => :self_benchmark_value? do
   seconds = Timer.benchmark { Timer.wait(1000) }
 
   seconds.eql?(1)
 end
 
-send_test :found_at => path, :within => :self_ticks_value? do
+send_test :found_at => PATH, :within_block => :self_ticks_value? do
   prev   = 0
   curr   = 0
   status = nil
@@ -71,7 +89,35 @@ end
 
 # Instance Methods and Attributes
 
-send_test :found_at => path, :within => :instance_method_types? do
+send_test :found_at => PATH, :within_block => :instance_methods_defined? do
+  timer = Timer.new
+
+  methods = %w(
+                start_ticks
+                paused_ticks
+                start
+                stop
+                pause
+                resume
+                ticks
+                average_fps
+              )
+
+  methods.methods_defined? :within => timer
+end
+
+send_test :found_at => PATH, :within_block => :attributes_defined? do
+  timer = Timer.new
+
+  methods = %w(
+                counted_frames
+                counted_frames=
+              )
+
+  methods.attributes_defined? :within => timer
+end
+
+send_test :found_at => PATH, :within_block => :instance_method_types? do
   timer = Timer.new
 
   timer.kind_of?(Timer)     &&
@@ -83,7 +129,7 @@ send_test :found_at => path, :within => :instance_method_types? do
   timer.average_fps.float? || timer.average_fps.int?
 end
 
-send_test :found_at => path, :within => :attribute_types? do
+send_test :found_at => PATH, :within_block => :attribute_types? do
   timer = Timer.new
 
   timer.counted_frames.int?      &&
@@ -92,7 +138,7 @@ send_test :found_at => path, :within => :attribute_types? do
   timer.paused_ticks.int?
 end
 
-send_test :found_at => path, :within => :instance_method_values? do
+send_test :found_at => PATH, :within_block => :instance_method_values? do
   timer      = Timer.new
   status     = nil
   count      = 0

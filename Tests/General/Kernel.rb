@@ -1,11 +1,29 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Test the API of the General subsystem.
 
-path = 'General/Kernel.rb'
+PATH = 'General/Kernel.rb'
 
 # Constants
 
-send_test :found_at => path, :within => :constant_types? do
+send_test :found_at => PATH, :within_block => :constants_defined? do
+  constants = %w(
+                  EXECUTABLE_NAME
+                  ARGV
+                  MAJOR
+                  MINOR
+                  PATCH
+                  RELEASE_TYPE
+                  COPYRIGHT
+                  PLATFORM
+                  DEFAULT_WINDOW_WIDTH
+                  DEFAULT_WINDOW_HEIGHT
+                  NATIVE_LOAD_COUNT_MAX
+                )
+
+  constants.constants_defined? :within => Kernel
+end
+
+send_test :found_at => PATH, :within_block => :constant_types? do
   EXECUTABLE_NAME.string?    &&
   ARGV.array?                &&
   MAJOR.string?              &&
@@ -19,12 +37,12 @@ send_test :found_at => path, :within => :constant_types? do
   NATIVE_LOAD_COUNT_MAX.int?
 end
 
-send_test :found_at => path, :within => :constant_values? do
+send_test :found_at => PATH, :within_block => :constant_values? do
   EXECUTABLE_NAME.eql?('../../game')                             &&
   ARGV.join(' ').eql?('-foo -bar')                               &&
   MAJOR.eql?('0')                                                &&
-  MINOR.eql?('5')                                                &&
-  PATCH.eql?('1')                                                &&
+  MINOR.eql?('6')                                                &&
+  PATCH.eql?('0')                                                &&
   RELEASE_TYPE.eql?('')                                          &&
   COPYRIGHT.eql?('MIT LICENSE - Copyright (c) 2026 Ralph Desir') &&
   DEFAULT_WINDOW_WIDTH.eql?(1280)                                &&
@@ -32,7 +50,7 @@ send_test :found_at => path, :within => :constant_values? do
   NATIVE_LOAD_COUNT_MAX.eql?(50)
 end
 
-send_test :found_at => path, :within => :constant_platform_values? do
+send_test :found_at => PATH, :within_block => :constant_platform_values? do
   PLATFORM.eql?('x86_64-linux')     ||
   PLATFORM.eql?('aarch64-linux')    ||
   PLATFORM.eql?('armv7l-linux')     ||
@@ -60,16 +78,25 @@ end
 
 # Methods
 
-send_test :found_at => path, :within => :method_types? do
+send_test :found_at => PATH, :within_block => :methods_defined? do
+  methods = %w(assert_true absolute_path open_url)
+
+  methods.methods_defined? :within => Kernel
+end
+
+# Just to avoid calling open_url twice.
+status_nil = open_url('.').nil?
+
+send_test :found_at => PATH, :within_block => :method_types? do
   absolute_path('.').string? &&
-  open_url('.').nil?         &&
+  status_nil                 &&
   clear_error.nil?
 end
 
-send_test :found_at => path, :within => :method_values? do
+send_test :found_at => PATH, :within_block => :method_values? do
   absolute_path = Env['PWD'] + '/' + 'Tests/General'
 
   absolute_path('.').eql?(absolute_path) &&
-  open_url('.').nil?                     &&
+  status_nil                             &&
   clear_error.nil?
 end

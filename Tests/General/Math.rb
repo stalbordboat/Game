@@ -1,18 +1,24 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Test the API of the General subsystem.
 
-path = 'General/Math.rb'
+PATH = 'General/Math.rb'
 
 # Constants
 
-send_test :found_at => path, :within => :constants_types? do
+send_test :found_at => PATH, :within_block => :constants_defined? do
+  constants = %w(PI E INT_MAX INT_MIN)
+
+  constants.constants_defined? :within => Math
+end
+
+send_test :found_at => PATH, :within_block => :constants_types? do
   Math::PI.float?    &&
   Math::E.float?     &&
   Math::INT_MAX.int? &&
   Math::INT_MIN.int?
 end
 
-send_test :found_at => path, :within => :constants_values? do
+send_test :found_at => PATH, :within_block => :constants_values? do
   Math::PI.eql?(3.14159265358979323846264338327950288) &&
   Math::E.eql?(2.718281828459045)
   # NOTE: Ruby gives and integer overflow error when testing INT_MAX, and INT_MIN. I don't know how to directly test this...
@@ -20,7 +26,34 @@ end
 
 # Methods
 
-send_test :found_at => path, :within => :methods_types? do
+send_test :found_at => PATH, :within_block => :functions_defined? do
+  functions = %w(
+                  acos
+                  asin
+                  atan
+                  atan2
+                  ceil
+                  cos
+                  exp
+                  fabs
+                  floor
+                  trunc
+                  fmod
+                  log
+                  log10
+                  pow
+                  round
+                  lround
+                  sin
+                  sqrt
+                  tan
+                  abs
+                )
+
+  functions.methods_defined? :within => Math
+end
+
+send_test :found_at => PATH, :within_block => :methods_types? do
   Math.acos(-1.0).float?        &&
   Math.asin(-1.0).float?        &&
   Math.atan(-1.0).float?        &&
@@ -43,7 +76,7 @@ send_test :found_at => path, :within => :methods_types? do
   Math.abs(0.0).int?
 end
 
-send_test :found_at => path, :within => :trig_methods_values? do
+send_test :found_at => PATH, :within_block => :trig_methods_values? do
   Math.sin(0).approx?(0)                          &&
   Math.sin(0.523599).approx?(0.5)                 &&
   Math.sin(0.785398).approx?(0.707107)            &&
@@ -88,7 +121,7 @@ send_test :found_at => path, :within => :trig_methods_values? do
   Math.atan2(-1, 1).approx?((-Math::PI) / 4)
 end
 
-send_test :found_at => path, :within => :expos_and_logs_methods_values? do
+send_test :found_at => PATH, :within_block => :expos_and_logs_methods_values? do
   Math.exp(-2.0).approx?(0.135335)   &&
   Math.exp(-1.0).approx?(0.367879)   &&
   Math.exp(0.0).approx?(1.0)         &&
@@ -118,7 +151,7 @@ send_test :found_at => path, :within => :expos_and_logs_methods_values? do
   Math.sqrt(0.25).approx?(0.5)
 end
 
-send_test :found_at => path, :within => :rounding_and_trunc_methods_values? do
+send_test :found_at => PATH, :within_block => :rounding_and_trunc_methods_values? do
   Math.ceil(0.0).approx?(0.0)    &&
   Math.ceil(0.1).approx?(1.0)    &&
   Math.ceil(1.9).approx?(2.0)    &&
@@ -153,7 +186,7 @@ send_test :found_at => path, :within => :rounding_and_trunc_methods_values? do
   Math.lround(2.0).eql?(2)
 end
 
-send_test :found_at => path, :within => :abs_and_mod_methods_values? do
+send_test :found_at => PATH, :within_block => :abs_and_mod_methods_values? do
   Math.fabs(0.0).approx?(0.0)            &&
   Math.fabs(-0.0).approx?(0.0)           &&
   Math.fabs(1.5).approx?(1.5)            &&

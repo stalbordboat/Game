@@ -6,11 +6,11 @@ class ::File
     if block_given?
       file = self.new(path, mode)
 
-      obj = yield(file)
-
-      file.close
-
-      return obj
+      begin
+        yield(file)
+      ensure
+        file.close
+      end
     else
       self.new(path, mode)
     end

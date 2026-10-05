@@ -1,11 +1,25 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Test the API of the General subsystem.
 
-path = 'General/Time.rb'
+PATH = 'General/Time.rb'
 
 # Constants
 
-send_test :found_at => path, :within => :constant_types? do
+send_test :found_at => PATH, :within_block => :constants_defined? do
+  constants = %w(
+                  MAX
+                  MIN
+                  DATE_FORMAT_YYYYMMDD
+                  DATE_FORMAT_DDMMYYYY
+                  DATE_FORMAT_MMDDYYYY
+                  FORMAT_24HR
+                  FORMAT_12HR
+                )
+
+  constants.constants_defined? :within => Time
+end
+
+send_test :found_at => PATH, :within_block => :constant_types? do
   Time::MAX.int?                  &&
   Time::MIN.int?                  &&
   Time::DATE_FORMAT_YYYYMMDD.int? &&
@@ -15,7 +29,7 @@ send_test :found_at => path, :within => :constant_types? do
   Time::FORMAT_12HR.int?
 end
 
-send_test :found_at => path, :within => :constant_values? do
+send_test :found_at => PATH, :within_block => :constant_values? do
   Time::MAX.eql?(Math::INT_MAX)      &&
   Time::MIN.eql?(Math::INT_MIN)      &&
   Time::DATE_FORMAT_YYYYMMDD.eql?(0) &&
@@ -27,7 +41,19 @@ end
 
 # Methods
 
-send_test :found_at => path, :within => :fileutils_stat_types? do
+send_test :found_at => PATH, :within_block => :functions_defined? do
+  methods = %w(
+                now
+                date_format
+                format
+                to_seconds
+                to_nanoseconds
+              )
+
+  methods.methods_defined? :within => Time
+end
+
+send_test :found_at => PATH, :within_block => :fileutils_stat_types? do
   filename = 'Time.rb'
 
   FileUtils::Stat.create_time(filename).int? &&
@@ -67,7 +93,7 @@ def valid_utc?(time)
   end
 end
 
-send_test :found_at => path, :within => :fileutils_stat_values? do
+send_test :found_at => PATH, :within_block => :fileutils_stat_values? do
   filename    = 'Time.rb'
   create_time = FileUtils::Stat.create_time(filename)
   modify_time = FileUtils::Stat.modify_time(filename)
@@ -78,7 +104,7 @@ send_test :found_at => path, :within => :fileutils_stat_values? do
   valid_time?(Time.now(access_time))
 end
 
-send_test :found_at => path, :within => :now_type? do
+send_test :found_at => PATH, :within_block => :now_type? do
   access_time       = FileUtils::Stat.access_time('Time.rb')
   time_now          = Time.now
   time_access_local = Time.now(access_time)
@@ -89,7 +115,7 @@ send_test :found_at => path, :within => :now_type? do
   time_access_utc.hash? 
 end
 
-send_test :found_at => path, :within => :now_values? do
+send_test :found_at => PATH, :within_block => :now_values? do
   access_time       = FileUtils::Stat.access_time('Time.rb')
   time_now          = Time.now
   time_access_local = Time.now(access_time)
@@ -100,11 +126,11 @@ send_test :found_at => path, :within => :now_values? do
   valid_utc?(time_access_utc) 
 end
 
-send_test :found_at => path, :within => :date_format_type? do
+send_test :found_at => PATH, :within_block => :date_format_type? do
   Time.date_format.int?
 end
 
-send_test :found_at => path, :within => :date_format_value? do
+send_test :found_at => PATH, :within_block => :date_format_value? do
   date_format = Time.date_format
 
   date_format.eql?(Time::DATE_FORMAT_YYYYMMDD) ||
@@ -112,29 +138,29 @@ send_test :found_at => path, :within => :date_format_value? do
   date_format.eql?(Time::DATE_FORMAT_MMDDYYYY)
 end
 
-send_test :found_at => path, :within => :format_types? do
+send_test :found_at => PATH, :within_block => :format_types? do
   Time.format.int?
 end
 
-send_test :found_at => path, :within => :format_values? do
+send_test :found_at => PATH, :within_block => :format_values? do
   format = Time.format
 
   format.eql?(Time::FORMAT_24HR) ||
   format.eql?(Time::FORMAT_12HR)
 end
 
-send_test :found_at => path, :within => :to_seconds_types? do
+send_test :found_at => PATH, :within_block => :to_seconds_types? do
   Time.to_seconds(1000).int?
 end
 
-send_test :found_at => path, :within => :to_seconds_values? do
+send_test :found_at => PATH, :within_block => :to_seconds_values? do
   Time.to_seconds(2000000000).eql?(2)
 end
 
-send_test :found_at => path, :within => :to_nanoseconds_types? do
+send_test :found_at => PATH, :within_block => :to_nanoseconds_types? do
   Time.to_nanoseconds(1).int?
 end
 
-send_test :found_at => path, :within => :to_nanoseconds_values? do
+send_test :found_at => PATH, :within_block => :to_nanoseconds_values? do
   Time.to_nanoseconds(2).eql?(2000000000)
 end

@@ -1,11 +1,25 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Test the API of the General subsystem.
 
-path = 'General/Power.rb'
+PATH = 'General/Power.rb'
 
 # Methods
 
-send_test :found_at => path, :within => :types? do
+send_test :found_at => PATH, :within_block => :functions_defined? do
+  functions = %w(
+                  unknown?
+                  on_battery?
+                  no_battery?
+                  charging?
+                  charged?
+                  seconds
+                  percent
+                )
+
+  functions.methods_defined? :within => Power
+end
+
+send_test :found_at => PATH, :within_block => :types? do
   Power.unknown?.bool?    &&
   Power.on_battery?.bool? &&
   Power.no_battery?.bool? &&
@@ -15,7 +29,7 @@ send_test :found_at => path, :within => :types? do
   Power.percent.int?
 end
 
-send_test :found_at => path, :within => :values? do
+send_test :found_at => PATH, :within_block => :values? do
   unknown        = Power.unknown?
   on_battery     = Power.on_battery?
   no_battery     = Power.no_battery?
