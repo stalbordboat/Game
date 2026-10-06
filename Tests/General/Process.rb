@@ -1,7 +1,8 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Test the API of the General subsystem.
 
-PATH = 'General/Process.rb'
+PATH           = 'General/Process.rb'
+PROCESS_OUTPUT = "Process Test!"
 
 # Class Methods
 
@@ -47,10 +48,10 @@ end
 
 send_test :found_at => PATH, :within_block => :self_open_with_pipe? do
   cmd     = ['./cmd']
-  process = Process.open(cmd, true)
+  process = Process.open(cmd, io: true)
   status  = nil
 
-  status = process.read.eql?("Process Test!") && process.exit_code.eql?(0)
+  status = process.read.eql?(PROCESS_OUTPUT) && process.exit_code.eql?(0)
 
   process.close
 
@@ -59,9 +60,19 @@ end
 
 # Instance Methods
 
+send_test :found_at => PATH, :within_block => :clone? do
+  process = Process.open(['./cmd'])
+
+  status = recover? { process.clone }
+
+  process.close
+
+  status
+end
+
 send_test :found_at => PATH, :within_block => :end? do
   cmd     = ['./cmd']
-  process = Process.open(cmd, true)
+  process = Process.open(cmd, io: true)
   status  = nil
 
   status = process.end.nil?
@@ -71,3 +82,6 @@ send_test :found_at => PATH, :within_block => :end? do
   status
 end
 
+send_test :found_at => PATH, :within_block => :open_with_block? do
+  Process.open(['./cmd'], io: true) { |process| process.read.eql?(PROCESS_OUTPUT) }
+end
