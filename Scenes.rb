@@ -5,20 +5,22 @@
 #
 # Scene.call next_scene, with_this: data
 #
-# When data is being passed back to a returning scene, the header of the Hash table should be called "from",
-# and "from" denotes where the data is being returned from, for example:
+# When data is being passed back to a returning scene, you can pass data back to the returning scene like this: 
 #
-# $scene_return_table = {from: SceneSave, image: @image}
+# Scene.return from: SceneSave, with_this: data
 #
-# In the returning scene once the $scene_return_table is no longer needed, you must clear the $scene_return_table variable:
+# Once returning back from the scene that data can be retrieved like this:
 #
-# $scene_return_table.clear
-
-$scene_return_table = {}
+# Scene.return_data
+#
+# In the returning scene once the data is returned, you must clear the data like this:
+#
+# Scene.clear_return_data
 
 module Scene
   @scene = nil
   @stack = []
+  @data  = {}
 
   def self.update
     Graphics.update
@@ -36,8 +38,21 @@ module Scene
     @scene = scene.new(with_this)
   end
 
-  def self.return
+  def self.return(from: nil, with_this: nil)
     @scene = @stack.pop
+    @data  = {from: from, with_this: with_this}
+  end
+
+  def self.return_data
+    @data.clone
+  end
+
+  def self.clear_return_data
+    @data.clear
+  end
+
+  def self.current
+    @scene
   end
 
   def self.stack
