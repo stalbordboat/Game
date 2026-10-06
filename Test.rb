@@ -67,7 +67,7 @@ def send_test(found_at: '', within_block: nil)
   rescue => e
     error_message = e.message
   end
-  desc    = "found_at => #{found_at} within => #{within_block}: #{error_message}"
+  desc    = "found_at => #{found_at} within_block => #{within_block}: #{error_message}"
   value_b = true
 
   assert_true(desc, value_a, value_b)
@@ -86,8 +86,8 @@ def recover?
   status
 end
 
-def skip(message)
-  Log.info('Skip:', message)
+def skip(message, within_block: nil)
+  Log.info("Skip: :within_block => #{within_block}: #{message}")
 
   true
 end

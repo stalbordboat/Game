@@ -140,5 +140,5 @@ send_test :found_at => PATH, :within_block => :fade_in_and_out? do
 
   status_fadein && status_fadeout
 =end
-  skip('Trying to smoke out a fail condition that only comes up occasionally.')
+  skip 'Trying to smoke out a fail condition that only comes up occasionally.', :within_block => :fade_in_and_out?
 end
