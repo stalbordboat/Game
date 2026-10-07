@@ -2,6 +2,7 @@
 # Description: Test the API of the Window subsystem.
 
 PATH = 'Window/Scene.rb'
+DATA = 777
 
 class SceneA
   def initialize(data)
@@ -84,9 +85,7 @@ send_test :found_at => PATH, :within_block => :return_without_data? do
 end
 
 send_test :found_at => PATH, :within_block => :return_with_data? do
-  data = 777
-
-  Scene.return from: SceneB, with_this: data
+  Scene.return from: SceneB, with_this: DATA
 
   Scene.current.kind_of?(SceneA)           &&
   Scene.return_data[:from].eql?(SceneB)    &&
@@ -99,6 +98,6 @@ send_test :found_at => PATH, :within_block => :clear_return_data? do
   Scene.clear_return_data
   data_b = Scene.return_data
 
-  data_a.eql?({from: SceneB, with_this: 777}) &&
+  data_a.eql?({from: SceneB, with_this: DATA}) &&
   data_b.eql?({})
 end
