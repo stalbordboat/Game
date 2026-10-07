@@ -1,5 +1,5 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
-# Description: Scene Transition Handling
+# Description: A scene manager for scene transition handling.
 #
 # Scene manages the high-level flow control of the game, for example:
 #
@@ -9,13 +9,15 @@
 #
 # Scene.return from: SceneSave, with_this: data
 #
-# Once returning back from the scene that data can be retrieved like this:
+# Once returning back from the scene a clone of that data can be retrieved like this:
 #
 # Scene.return_data
 #
 # In the returning scene once the data is returned, you must clear the data like this:
 #
 # Scene.clear_return_data
+#
+# This is useful for avoiding using data that may have been set previously, but isn't needed currently.
 
 module Scene
   @scene = nil
