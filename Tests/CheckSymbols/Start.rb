@@ -19,6 +19,6 @@ value_b = true
 assert_true(desc(symbol), value_a, value_b)
 
 mrb_load '../../Test.rb'
-mrb_load '../../Scenes.rb'
+mrb_load '../../Scene.rb'
 mrb_load '../../Input.rb'
 mrb_load 'TopLevel.rb'
