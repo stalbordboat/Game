@@ -42,7 +42,7 @@ send_test :found_at => PATH, :within_block => :constant_values? do
   ARGV.join(' ').eql?('-foo -bar')                               &&
   MAJOR.eql?('0')                                                &&
   MINOR.eql?('7')                                                &&
-  PATCH.eql?('0')                                                &&
+  PATCH.eql?('1')                                                &&
   RELEASE_TYPE.eql?('')                                          &&
   COPYRIGHT.eql?('MIT LICENSE - Copyright (c) 2026 Ralph Desir') &&
   DEFAULT_WINDOW_WIDTH.eql?(1280)                                &&
