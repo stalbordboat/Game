@@ -17,6 +17,8 @@
 #include <mruby/array.h>
 #include <mruby/hash.h>
 
+// All Versions 0.7.0 or greater use semantic versioning:
+// For more information please visit: https://semver.org/
 #define GAME_MAJOR_VERSION "0"
 #define GAME_MINOR_VERSION "7"
 #define GAME_PATCH_VERSION "0"
