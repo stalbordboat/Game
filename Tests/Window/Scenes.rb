@@ -89,7 +89,7 @@ send_test :found_at => PATH, :within_block => :return_with_data? do
 
   Scene.current.kind_of?(SceneA)           &&
   Scene.return_data[:from].eql?(SceneB)    &&
-  Scene.return_data[:with_this].eql?(data) &&
+  Scene.return_data[:with_this].eql?(DATA) &&
   Scene.stack.length.eql?(0)
 end
 
