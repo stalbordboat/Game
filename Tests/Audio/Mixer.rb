@@ -1,5 +1,5 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
-# Description: Test the audio subsystem.
+# Description: Test the Audio subsystem.
 
 PATH = 'Audio/Mixer.rb:'
 

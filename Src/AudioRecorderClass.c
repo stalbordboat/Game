@@ -80,7 +80,7 @@ mrb_value initialize(mrb_state *mrb, mrb_value self) {
 
     UNUSED_ARGUMENT self;
 
-    IGNORE_RETURN mrb_get_args(mrb, "i|i|i|i", &id, &format, &channels, &freq);
+    IGNORE_RETURN mrb_get_args(mrb, "i|iii", &id, &format, &channels, &freq);
 
     spec.format   = format;
     spec.channels = channels;
