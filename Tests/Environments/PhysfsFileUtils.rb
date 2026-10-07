@@ -1,10 +1,10 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: Test the expected condtions of various environments.
 
-path = 'Environments/PhysfsFileUtils.rb'
+PATH = 'Environments/PhysfsFileUtils.rb'
 
-send_test :found_at => path, :within => :entries? do
-  skip 'PhysfsFileUtils.entries?: Physfs only returns an empty array for some reason.'
+send_test :found_at => PATH, :within_block => :entries? do
+  skip 'Physfs only returns an empty array for some reason.', :within_block => :entries?
   #entries = FileUtils.entries('.')
 
   #if entries.kind_of? Array
@@ -14,7 +14,7 @@ send_test :found_at => path, :within => :entries? do
   #end
 end
 
-send_test :found_at => path, :within => :entries_with_ext? do
-  skip 'PhysfsFileUtils.entries_with_ext?: Physfs only returns an empty array for some reason.'
+send_test :found_at => PATH, :within_block => :entries_with_ext? do
+  skip 'Physfs only returns an empty array for some reason.', :within_block => :entries_with_ext?
   #FileUtils.entries('.', '*.txt').include? FILENAME_WRITE
 end

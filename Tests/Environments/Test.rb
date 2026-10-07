@@ -5,13 +5,34 @@
 #
 # Example: Checking if the symbols that represent methods are actually defined. 
 #
-# found_at = 'CheckSymbols/Rect.rb:'
-# rect     = Rect.new
+# PATH = 'Window/Rect.rb:'
 #
-# %w(x y w h width height).response_tests found_at, rect
+# send_test :found_at => PATH, :within_block => :attributes_defined? do
+#  rect = Rect.new
+#
+#  attributes = %w(
+#                    x
+#                    y
+#                    w
+#                    h
+#                    width
+#                    height
+#                    x=
+#                    y=
+#                    w=
+#                    h=
+#                    width=
+#                    height=
+#                 )
+#
+#  attributes.attributes_defined? :within => rect
+#end
 #
 # Enumerable
-# Description: This is mixed-in so that other classes can use its batch testing methods(e.g. response_tests, etc.).
+# Description: This is mixed-in so that other classes can use its batch testing methods(e.g. attributes_defined?, etc.).
+#
+# constants_defined?, methods_defined?, and attributes_defined? returns true if all of the symbols are defined, and false if
+# just one is not.
 #
 # Float
 # Description: It checks whether two floating-point numbers are approximately equal within a small tolerance, called epsilon.
@@ -31,14 +52,22 @@
 # skip, this method logs a message and returns true, effectively skipping a test.
 #
 # simulate_main_loop, Runs a block of code between Graphics.update and Graphics.draw.
+#
+# The Float class comes equipped with a method for testing the euqality of a value called approx?.
+# It checks whether two floating-point numbers are approximately equal within a small tolerance, called epsilon.
+#
+# The Object is equipped with a verity of type testing methods: bool?, int?, float?, string?, array?, and hash?.
+#
+# The Integer class has greater_than? and less_than? methods to make the API more consistent with the eql? method that is
+# frequently used in these tests because I think it makes things clearer than the typical "==" syntax.
 
-def send_test(found_at: '', within: nil)
+def send_test(found_at: '', within_block: nil)
   begin
     value_a = yield
   rescue => e
     error_message = e.message
   end
-  desc    = "found_at => #{found_at} within => #{within} #{error_message}"
+  desc    = "found_at => #{found_at} within_block => #{within_block}: #{error_message}"
   value_b = true
 
   assert_true(desc, value_a, value_b)
@@ -57,8 +86,8 @@ def recover?
   status
 end
 
-def skip(message)
-  Log.info('Skip:', message)
+def skip(message, within_block: nil)
+  Log.info("Skip: :within_block => #{within_block}: #{message}")
 
   true
 end
@@ -82,22 +111,76 @@ def simulate_main_loop
 end
 
 module Enumerable
-  def const_defined_tests(path, obj)
-    self.each do |s|
-      value_a = obj.const_defined?(s)
-      desc    = "#{path} #{obj}.const_defined? #{s.inspect}"
+  def constants_defined?(within: nil)
+    status = nil
 
-      send_test(desc, value_a)
+    self.each do |s|
+      value_a = within.const_defined?(s)
+      value_b = true
+      status  = value_a.eql?(value_b)
+
+      if status.eql?(false)
+        Log.error("Constant Not Defined: #{s.inspect}")
+        break
+      end
     end
+
+    status
   end
 
-  def response_tests(path, obj)
-    self.each do |s|
-      value_a = obj.respond_to?(s.to_sym)
-      desc    = "#{path} #{obj}.respond_to? #{s.inspect}"
+  def methods_defined?(within: nil)
+    status = nil
 
-      send_test(desc, value_a)
+    self.each do |s|
+      value_a = within.respond_to?(s.to_sym)
+      value_b = true
+      status  = value_a.eql?(value_b)
+
+      if status.eql?(false)
+        Log.error("Method Not Defined: #{s.inspect}")
+        break
+      end
     end
+
+    status
+  end
+
+  alias :attributes_defined? :methods_defined?
+end
+
+class Object
+  def bool?
+    self.kind_of?(TrueClass) || self.kind_of?(FalseClass)
+  end
+
+  def int?
+    self.kind_of? Integer
+  end
+
+  def float?
+    self.kind_of? Float
+  end
+
+  def string?
+    self.kind_of? String
+  end
+
+  def array?
+    self.kind_of? Array
+  end
+
+  def hash?
+    self.kind_of? Hash
+  end
+end
+
+class Integer
+  def greater_than?(value)
+    self > value
+  end
+
+  def less_than?(value)
+    self < value
   end
 end
 
