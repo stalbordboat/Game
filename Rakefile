@@ -2,14 +2,13 @@
 # Domain-Specific Language: https://ruby.github.io/rake/Rake/DSL.html
 
 require          'rake/clean'
-require_relative 'Tasks/test.rb'
-require_relative 'Tasks/write_platform.rb'
+require_relative 'Tasks/tasks.rb'
 
 # =============
 # Command Names
 # =============
 
-CC    = ENV['CC'] || 'cc'
+C_COMPILER    = ENV['CC'] || 'cc'
 BIN   = ENV['BIN'] || 'game'
 MRBC  = "#{BIN}-mrbc"
 
@@ -41,32 +40,15 @@ PKGS                = %w(game-mruby sdl3 physfs sdl3-mixer).join ' '
 # Specifications
 # ==============
 
-task :default => :all
-
 SOURCES = FileList["#{SRC_DIRNAME}/*.c"]
-OBJECTS = SOURCES.ext '.o'
-CFLAGS  = %W(#{OPTIMIZATION_FLAGS} #{WARNING_FLAGS} #{INCLUDE_FLAGS} #{DEFINE_FLAGS}).join ' '
 
-def pkg_config(opt)
-  `pkg-config --#{opt} #{PKGS}`
-end
-
-desc 'Builds all source files'
-task :all => OBJECTS do
-  # Link object files into the binary executable.
-  sh "#{CC} #{CFLAGS} #{OBJECTS} -o #{BIN} #{ pkg_config('libs') }"
-
-  write_platform
-end
-
-rule '.o' => '.c' do |file_task|
-  src      = file_task.source
-  obj      = "#{File.basename src, '.c'}.o"
-  dirname  = src.split('/').first
-  obj_path = "#{dirname}/#{obj}"
-
-  # Compile individual object files.
-  sh "#{CC} #{CFLAGS} -c #{src} -o #{obj_path} #{ pkg_config('cflags') }"
+build :this_executable => BIN, :with_this_compiler => C_COMPILER do |compiler|
+  compiler.optimizations = OPTIMIZATION_FLAGS
+  compiler.warnings      = WARNING_FLAGS
+  compiler.include       = INCLUDE_FLAGS
+  compiler.defines       = DEFINE_FLAGS
+  compiler.sources       = SOURCES
+  compiler.pkgs          = PKGS
 end
 
 desc 'Compile a Ruby file'
