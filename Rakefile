@@ -51,19 +51,14 @@ build :this_executable => BIN, :with_this_compiler => C_COMPILER do |compiler|
   compiler.pkgs          = PKGS
 end
 
-desc 'Compile a Ruby file'
-task :mrbc, [:filename] do |task, args|
-  filename = args[:filename]
-  basename = File.basename(filename, '.rb')
-  path     = "#{MRBLIB_DIRNAME}/#{filename}"
+compile :bytecode_c,
+        :with_this_compiler => MRBC,
+        :move_output_from   => MRBLIB_DIRNAME,
+        :to                 => INCLUDE_DIRNAME
 
-  sh "#{MRBC} -B #{basename}_symbol #{path}"
-
-  src  = "#{MRBLIB_DIRNAME}/#{basename}.c"
-  dest = "#{INCLUDE_DIRNAME}/#{basename}.c"
-
-  FileUtils.mv src, dest, verbose: true
-end
+compile :bytecode_mrb,
+        :with_this_compiler => MRBC,
+        :move_output_from   => MRBLIB_DIRNAME
 
 desc 'Moves install files to the install path'
 task :install do |task|
