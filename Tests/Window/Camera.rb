@@ -51,7 +51,7 @@ send_test :found_at => PATH, :within_block => :self_driver_current_name? do
 end
 
 # If there's a camera driver then we should expect there to be at least one driver, right? Lol.
-send_test :found_at => path, :within_block => :self_driver_count? do
+send_test :found_at => PATH, :within_block => :self_driver_count? do
   count = Camera.driver_count
 
   count >= 0 if count.kind_of?(Integer)
