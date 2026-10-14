@@ -155,3 +155,15 @@ send_test :found_at => PATH, :within_block => :close? do
 
   status
 end
+
+send_test :found_at => PATH, :within_block => :open_with_block? do
+  which  = Camera.ids.first
+  status = nil
+
+  unless which.nil?
+    dest   = Rect.new 0, 0, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT
+    status = Camera.open(which, dest) { |camera| camera.name }
+  end
+
+  status
+end

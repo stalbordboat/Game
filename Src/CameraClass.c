@@ -1,6 +1,7 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2025
 // Description: Represents Camera Devices
 #include "Internal.h"
+#include "Camera.c"
 
 PRIVATE SDL_Renderer *private_renderer = NULL;
 
@@ -68,7 +69,7 @@ mrb_value self_driver_name(mrb_state *mrb, mrb_value self) {
 
     return mrb_str_new_cstr(mrb, SDL_GetCameraDriver(index));
 }
-
+/*
 PRIVATE
 mrb_value self_open(mrb_state *mrb, mrb_value self) {
     struct RClass *camera  = NULL;
@@ -86,7 +87,7 @@ mrb_value self_open(mrb_state *mrb, mrb_value self) {
 
     return mrb_obj_new(mrb, camera, 2, argv);
 }
-
+*/
 PRIVATE
 mrb_value initialize(mrb_state *mrb, mrb_value self) {
     Camera      *camera  = NULL;
@@ -328,7 +329,7 @@ void DefineCameraClass(mrb_state *mrb, SDL_Renderer *renderer) {
     mrb_define_class_method(mrb, camera, "driver_current_name", self_driver_current_name, MRB_ARGS_NONE());
     mrb_define_class_method(mrb, camera, "driver_count",        self_driver_count,        MRB_ARGS_NONE());
     mrb_define_class_method(mrb, camera, "driver_name",         self_driver_name,         MRB_ARGS_REQ(1));
-    mrb_define_class_method(mrb, camera, "open",                self_open,                MRB_ARGS_REQ(2));
+    //mrb_define_class_method(mrb, camera, "open",                self_open,                MRB_ARGS_REQ(2));
 
     mrb_define_method(mrb, camera, "initialize",      initialize,      MRB_ARGS_REQ(2));
     mrb_define_method(mrb, camera, "initialize_copy", initialize_copy, MRB_ARGS_REQ(1));
@@ -339,6 +340,8 @@ void DefineCameraClass(mrb_state *mrb, SDL_Renderer *renderer) {
     mrb_define_method(mrb, camera, "save",            save,            MRB_ARGS_REQ(1));
     mrb_define_method(mrb, camera, "update",          update,          MRB_ARGS_NONE());
     mrb_define_method(mrb, camera, "position",        position,        MRB_ARGS_NONE());
+
+    IGNORE_RETURN mrb_load_irep(mrb, Camera_symbol);
 
     RESTORE_ARENA(mrb);
 }
