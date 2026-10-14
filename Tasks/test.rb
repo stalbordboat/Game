@@ -24,15 +24,8 @@
 # end
 #
 # When running environment, it expects an archive called Test.zip.
-require 'rake/dsl_definition'
-require 'rake/file_list'
 
-include Rake::DSL
-
-module Task
-end
-
-class Task::Test
+class TaskTest
   attr_accessor :check_symbols
   attr_accessor :environments
   attr_accessor :window
@@ -97,4 +90,8 @@ class Task::Test
   def run_general
     run_cmd(@general, options: '-foo -bar')
   end
+end
+
+def test(using: nil)
+  TaskTest.new(using) { |spec| yield(spec) }
 end

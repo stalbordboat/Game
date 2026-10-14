@@ -70,9 +70,7 @@ installer :remove_bin_from => BIN_PREFIX, :remove_includes_from => INC_PREFIX do
   cmd.path_includes = NATIVE_DIRNAME
 end
 
-CLEAN.include("#{SRC_DIRNAME}/*.o", BIN)
-
-Task::Test.new("../../#{BIN}") do |spec|
+test :using => "../../#{BIN}" do |spec|
   spec.check_symbols = 'Tests/CheckSymbols'
   spec.environments  = 'Tests/Environments'
   spec.window        = 'Tests/Window'
@@ -80,3 +78,5 @@ Task::Test.new("../../#{BIN}") do |spec|
   spec.events        = 'Tests/Events'
   spec.general       = 'Tests/General'
 end
+
+CLEAN.include("#{SRC_DIRNAME}/*.o", BIN)

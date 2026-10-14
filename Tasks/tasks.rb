@@ -4,12 +4,12 @@
 require          'rake/dsl_definition'
 require          'rake/file_list'
 
-# TODO: Probably delete this...
 include Rake::DSL
 
+# Defined in build.rb.
 task :default => :build
 
-require_relative 'test.rb'
 require_relative 'build.rb'
 require_relative 'compile.rb'
 require_relative 'install.rb'
+require_relative 'test.rb'
