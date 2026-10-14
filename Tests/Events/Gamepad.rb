@@ -13,11 +13,7 @@ end
 
 def test_all_gamepads
   Gamepad.ids.each do |id|
-    gamepad = Gamepad.open(id)
-
-    yield(gamepad)
-
-    gamepad.close
+    Gamepad.open(id) { |gamepad| yield(gamepad) }
   end
 end
 

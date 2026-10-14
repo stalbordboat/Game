@@ -1,6 +1,7 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
 // Description: Represents Gamepad Devices
 #include "Internal.h"
+#include "Gamepad.c"
 
 PRIVATE
 mrb_value self_ids(mrb_state *mrb, mrb_value self) {
@@ -83,22 +84,6 @@ mrb_value self_reload_mappings(mrb_state *mrb, mrb_value self) {
     }
 
     return mrb_nil_value();
-}
-
-PRIVATE
-mrb_value self_open(mrb_state *mrb, mrb_value self) {
-    struct RClass *gamepad = NULL;
-    mrb_value      argv[1] = {0};
-    mrb_int        which   = 0;
-
-    UNUSED_ARGUMENT self;
-
-    IGNORE_RETURN mrb_get_args(mrb, "i", &which);
-
-    gamepad = mrb_class_get(mrb, "Gamepad");
-    argv[0] = mrb_int_value(mrb, which);
-
-    return mrb_obj_new(mrb, gamepad, 1, argv);
 }
 
 PRIVATE
@@ -403,7 +388,6 @@ void DefineGamepadClass(mrb_state *mrb) {
     mrb_define_class_method(mrb, gamepad, "name",            self_name,            MRB_ARGS_REQ(1));
     mrb_define_class_method(mrb, gamepad, "add_mapping",     self_add_mapping,     MRB_ARGS_REQ(1));
     mrb_define_class_method(mrb, gamepad, "reload_mappings", self_reload_mappings, MRB_ARGS_NONE());
-    mrb_define_class_method(mrb, gamepad, "open",            self_open,            MRB_ARGS_REQ(1));
 
     mrb_define_method(mrb, gamepad, "initialize",       initialize,          MRB_ARGS_REQ(1));
     mrb_define_method(mrb, gamepad, "initialize_copy",  initialize_copy,     MRB_ARGS_REQ(1));
@@ -423,6 +407,8 @@ void DefineGamepadClass(mrb_state *mrb) {
     mrb_define_method(mrb, gamepad, "mapping",          get_mapping,         MRB_ARGS_NONE());
     mrb_define_method(mrb, gamepad, "mapping=",         set_mapping,         MRB_ARGS_REQ(1));
     mrb_define_method(mrb, gamepad, "guid",             guid,                MRB_ARGS_NONE());
+
+    IGNORE_RETURN mrb_load_irep(mrb, Gamepad_symbol);
 
     RESTORE_ARENA(mrb);
 }
