@@ -21,8 +21,10 @@ class Executable
     cflags  = %W(#{@optimizations} #{@warnings} #{@include} #{@defines}).join(' ')
     objects = sources.ext('.o')
 
-    compile cflags
-    link    cflags, objects
+    compile(cflags)
+
+    link(cflags, objects)
+
     write_platform
   end
 

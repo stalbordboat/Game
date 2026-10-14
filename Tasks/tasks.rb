@@ -1,8 +1,8 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: 
 # Reference Documentation: https://ruby.github.io/rake/Rake/DSL.html
-require          'rake/dsl_definition'
-require          'rake/file_list'
+require 'rake/dsl_definition'
+require 'rake/file_list'
 
 include Rake::DSL
 
