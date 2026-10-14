@@ -12,3 +12,4 @@ task :default => :build
 require_relative 'test.rb'
 require_relative 'build.rb'
 require_relative 'compile.rb'
+require_relative 'install.rb'

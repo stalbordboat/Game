@@ -60,26 +60,14 @@ compile :bytecode_mrb,
         :with_this_compiler => MRBC,
         :move_output_from   => MRBLIB_DIRNAME
 
-desc 'Moves install files to the install path'
-task :install do |task|
-  verbose = !task.application.options.silent
-
-  FileUtils.install(BIN, BIN_PREFIX, verbose: verbose)
-
-  FileUtils.cp_r(NATIVE_PATH, INC_PREFIX, verbose: verbose)
+installer :install_bin_to => BIN_PREFIX, :copy_includes_to => INC_PREFIX do |cmd|
+  cmd.filename_bin  = BIN
+  cmd.path_includes = NATIVE_PATH
 end
 
-desc 'Removes install files from the install path'
-task :uninstall do |task|
-  verbose = !task.application.options.silent
-
-  FileUtils.cd BIN_PREFIX, verbose: verbose do
-    FileUtils.rm_f(BIN, verbose: verbose)
-  end
-
-  FileUtils.cd INC_PREFIX, verbose: verbose do
-    FileUtils.rm_rf(NATIVE_DIRNAME, verbose: verbose)
-  end
+installer :remove_bin_from => BIN_PREFIX, :remove_includes_from => INC_PREFIX do |cmd|
+  cmd.filename_bin  = BIN
+  cmd.path_includes = NATIVE_DIRNAME
 end
 
 CLEAN.include("#{SRC_DIRNAME}/*.o", BIN)
