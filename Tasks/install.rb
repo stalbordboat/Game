@@ -1,5 +1,5 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
-# Description: 
+# Description: Tasks for handling install/uninstall tasks.
 
 class Installer
   attr_accessor :filename_bin

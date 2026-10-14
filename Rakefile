@@ -1,5 +1,8 @@
 # General Documentation:    https://ruby.github.io/rake/
 # Domain-Specific Language: https://ruby.github.io/rake/Rake/DSL.html
+#
+# This file automates tasks using several tasks that are implemented in Tasks/tasks.rb. The defined tasks are listed below,
+# look at the code in the "tasks" section to see how they are used.
 
 require          'rake/clean'
 require_relative 'Tasks/tasks.rb'

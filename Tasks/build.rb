@@ -1,5 +1,5 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
-# Description: 
+# Description: Automation tasks for building Game.
 require_relative 'write_platform.rb'
 
 class Executable

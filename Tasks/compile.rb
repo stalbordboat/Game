@@ -1,5 +1,5 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
-# Description: 
+# Description: Tasks for automating the use of an mruby bytecode compiler.
 
 class Compile
   def initialize(compiler, src, dest)
