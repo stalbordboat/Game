@@ -8,9 +8,9 @@ require_relative 'Tasks/tasks.rb'
 # Command Names
 # =============
 
-C_COMPILER    = ENV['CC'] || 'cc'
-BIN   = ENV['BIN'] || 'game'
-MRBC  = "#{BIN}-mrbc"
+C_COMPILER = ENV['CC'] || 'cc'
+BIN        = ENV['BIN'] || 'game'
+MRBC       = "#{BIN}-mrbc"
 
 # =====
 # Paths
@@ -29,18 +29,17 @@ INC_PREFIX      = "#{PREFIX}/include/GameNDK"
 # Flags
 # =====
 
-OPTIMIZATION_FLAGS  = %w(-O2).join ' '
-WARNING_FLAGS       = %w(-Wall -Werror -Wextra).join ' '
-INCLUDE_FLAGS       = %W(-I #{INCLUDE_DIRNAME}).join ' '
-ASSERT_LEVEL        = ENV['ASSERT_LEVEL'] || '2'
-DEFINE_FLAGS        = %W(-D _GNU_SOURCE -D SDL_ASSERT_LEVEL=#{ASSERT_LEVEL}).join ' '
-PKGS                = %w(game-mruby sdl3 physfs sdl3-mixer).join ' '
+OPTIMIZATION_FLAGS = %w(-O2).join ' '
+WARNING_FLAGS      = %w(-Wall -Werror -Wextra).join ' '
+INCLUDE_FLAGS      = %W(-I #{INCLUDE_DIRNAME}).join ' '
+ASSERT_LEVEL       = ENV['ASSERT_LEVEL'] || '2'
+DEFINE_FLAGS       = %W(-D _GNU_SOURCE -D SDL_ASSERT_LEVEL=#{ASSERT_LEVEL}).join ' '
+PKGS               = %w(game-mruby sdl3 physfs sdl3-mixer).join ' '
+SOURCES            = FileList["#{SRC_DIRNAME}/*.c"]
 
-# ==============
-# Specifications
-# ==============
-
-SOURCES = FileList["#{SRC_DIRNAME}/*.c"]
+# =====
+# Tasks
+# =====
 
 build :this_executable => BIN, :with_this_compiler => C_COMPILER do |compiler|
   compiler.optimizations = OPTIMIZATION_FLAGS
