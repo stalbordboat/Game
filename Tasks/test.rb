@@ -93,5 +93,6 @@ class TaskTest
 end
 
 def test(using: nil)
+  raise 'The test spec requires a bin, example: test :using => "game"' if using.nil?
   TaskTest.new(using) { |spec| yield(spec) }
 end

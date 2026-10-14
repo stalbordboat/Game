@@ -35,19 +35,20 @@ class Installer
     task :uninstall do |task|
       verbose = !task.application.options.silent
 
-      cd(@prefix_bin, verbose: verbose) { remove_bin }
+      cd(@prefix_bin, verbose: verbose) { remove_bin(verbose) }
 
-      cd(@prefix_includes, verbose: verbose) { remove_includes }
+      cd(@prefix_includes, verbose: verbose) { remove_includes(verbose) }
     end
   end
 
   private
 
-  def remove_includes
-    Dir.glob('*.h').each { |entries| FileUtils.rm_f(entries, verbose: verbose) }
+  def remove_includes(verbose)
+    #Dir.glob('*.h').each { |entries| FileUtils.rm_f(entries, verbose: verbose) }
+    FileUtils.rm_rf(@path_includes, verbose: verbose)
   end
 
-  def remove_bin
+  def remove_bin(verbose)
     FileUtils.rm_f(@filename_bin, verbose: verbose)
   end
 end

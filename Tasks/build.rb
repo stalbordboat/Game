@@ -53,7 +53,9 @@ class Executable
   end
 end
 
-def build(this_executable: nil, with_this_compiler: '')
+def build(this_executable: nil, with_this_compiler: nil)
+  raise 'The build spec needs an executbale to build with, example: build this_executable: "game"' if this_executable.nil?
+  raise 'The build spec needs a compiler to build with, example: build with_this_compiler: "cc"'   if with_this_compiler.nil?
   executable = Executable.new(this_executable, with_this_compiler)
 
   yield(executable)
