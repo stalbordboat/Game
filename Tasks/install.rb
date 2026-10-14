@@ -44,7 +44,6 @@ class Installer
   private
 
   def remove_includes(verbose)
-    #Dir.glob('*.h').each { |entries| FileUtils.rm_f(entries, verbose: verbose) }
     FileUtils.rm_rf(@path_includes, verbose: verbose)
   end
 
