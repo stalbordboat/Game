@@ -1,15 +1,6 @@
 # MIT LICENSE - Copyright (c) Ralph Desir 2026
 # Description: 
 
-#desc 'Moves install files to the install path'
-#task :install do |task|
-#  verbose = !task.application.options.silent
-
-#  FileUtils.install(BIN, BIN_PREFIX, verbose: verbose)
-
-#  FileUtils.cp_r(NATIVE_PATH, INC_PREFIX, verbose: verbose)
-#end
-
 class Installer
   attr_accessor :filename_bin
   attr_accessor :path_includes
