@@ -33,8 +33,9 @@ class TaskTest
   attr_accessor :audio
   attr_accessor :general
 
-  def initialize(bin)
-    @bin = bin
+  def initialize(bin, extra_utilities)
+    @bin             = bin
+    @extra_utilities = extra_utilities
 
     yield self
 
@@ -58,7 +59,7 @@ class TaskTest
   private
 
   def run_cmd(path, env='', options: nil)
-    FileUtils.cd(path) { sh("#{env} #{@bin} #{options}") }
+    cd(path) { sh("#{env} #{@bin} #{options}") }
   end
 
   def run_check_symbols
@@ -88,11 +89,30 @@ class TaskTest
   end
 
   def run_general
+    bin = 'cmd'
+
+    build_process_test_cmd(bin) if c_compiler?
+
     run_cmd(@general, options: '-foo -bar')
+
+    remove_process_test_cmd(bin) if c_compiler?
+  end
+
+  def build_process_test_cmd(bin)
+    cd(@general) { sh("#{@extra_utilities[:c_compiler]} cmd.c -o #{bin}") }
+  end
+
+  def remove_process_test_cmd(bin)
+    cd(@general) { rm(bin) }
+  end
+
+  def c_compiler?
+    !@extra_utilities[:c_compiler].nil?
   end
 end
 
-def test(using: nil)
+def test(using: nil, extra_utilities: nil)
+  # extra_utilities is purely optional so no raise is needed for that keyword argument.
   raise 'The test spec requires a bin, example: test :using => "game"' if using.nil?
-  TaskTest.new(using) { |spec| yield(spec) }
+  TaskTest.new(using, extra_utilities) { |spec| yield(spec) }
 end
