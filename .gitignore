@@ -119,3 +119,5 @@ Gemfile.lock
 
 game
 Tests/General/cmd
+Tests/Environments/Test.so
+Tests/Environments/Test.zip

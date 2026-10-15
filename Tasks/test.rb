@@ -25,6 +25,8 @@
 #
 # When running environment, it expects an archive called Test.zip.
 
+require 'zip'
+
 class TaskTest
   attr_accessor :check_symbols
   attr_accessor :environments
@@ -67,13 +69,24 @@ class TaskTest
   end
 
   def run_environments
+    filename_src    = 'Entry.c'
+    filename_output = 'Test.so'
+    filename = 'Test.zip'
+
+    build_test_so(filename_src, filename_output) if c_compiler?
+
     # Run outside Archive.
     env = 'GAME_START_PATH="Init.rb" GAME_NO_WINDOW=true GAME_NO_EVENTS=true GAME_NO_AUDIO=true'
     run_cmd(@environments, env)
 
+    create_archive(filename)
+
     # Run inside Archive.
     env = 'GAME_START_PATH=Init.rb GAME_NO_WINDOW=true GAME_NO_EVENTS=true GAME_NO_AUDIO=true GAME_PHYSFS_ARCHIVE=Test.zip ARCHIVE_HAS_WRITE=false'
     run_cmd(@environments, env)
+
+    remove_test_so(filename_output)
+    remove_archive(filename)
   end
 
   def run_window
@@ -102,12 +115,36 @@ class TaskTest
     cd(@general) { sh("#{@extra_utilities[:c_compiler]} cmd.c -o #{bin}") }
   end
 
+  def build_test_so(filename_src, filename_output)
+    cd(@environments) { sh("#{@extra_utilities[:c_compiler]} -fpic -I ../../Include #{filename_src} -shared -o #{filename_output} $(pkg-config --cflags --libs #{@extra_utilities[:pkgs]})") }
+  end
+
   def remove_process_test_cmd(bin)
     cd(@general) { rm(bin) }
   end
 
+  def remove_test_so(filename_output)
+    cd(@environments) { rm(filename_output) }
+  end
+
   def c_compiler?
     !@extra_utilities[:c_compiler].nil?
+  end
+
+  def create_archive(filename)
+    cd(@environments) do
+      filenames = Dir.entries('.').keep_if do |entry|
+        !entry.include?('SDLFile') && !entry.eql?('.') && !entry.eql?('..')
+      end
+
+      Zip::File.open(filename, create: true) do |zip_file|
+        filenames.each { |filename| zip_file.add(filename, filename) }
+      end
+    end
+  end
+
+  def remove_archive(filename)
+    cd(@environments) { rm(filename) }
   end
 end
 
