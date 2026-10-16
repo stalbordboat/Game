@@ -1,6 +1,7 @@
 // MIT LICENSE - Copyright (c) Ralph Desir 2026
 // Description: Represents Audio Recording Devices
 #include "Internal.h"
+#include "AudioRecorder.c"
 
 PRIVATE
 mrb_value self_ids(mrb_state *mrb, mrb_value self) {
@@ -42,7 +43,7 @@ mrb_value self_name(mrb_state *mrb, mrb_value self) {
 
     return mrb_str_new_cstr(mrb, name);
 }
-
+/*
 PRIVATE
 mrb_value self_open(mrb_state *mrb, mrb_value self) {
     struct RClass *recorder = NULL;
@@ -64,7 +65,7 @@ mrb_value self_open(mrb_state *mrb, mrb_value self) {
 
     return mrb_obj_new(mrb, recorder, 4, argv);
 }
-
+*/
 PRIVATE
 mrb_value initialize(mrb_state *mrb, mrb_value self) {
     SDL_AudioStream *stream   = NULL;
@@ -225,7 +226,7 @@ void DefineAudioRecorderClass(mrb_state *mrb) {
 
     mrb_define_class_method(mrb, recorder, "ids",  self_ids,  MRB_ARGS_NONE());
     mrb_define_class_method(mrb, recorder, "name", self_name, MRB_ARGS_REQ(1));
-    mrb_define_class_method(mrb, recorder, "open", self_open, MRB_ARGS_REQ(1)|MRB_ARGS_OPT(3));
+    //mrb_define_class_method(mrb, recorder, "open", self_open, MRB_ARGS_REQ(1)|MRB_ARGS_OPT(3));
 
     mrb_define_method(mrb, recorder, "initialize",      initialize,      MRB_ARGS_REQ(1)|MRB_ARGS_OPT(3));
     mrb_define_method(mrb, recorder, "initialize_copy", initialize_copy, MRB_ARGS_REQ(1));
@@ -235,6 +236,8 @@ void DefineAudioRecorderClass(mrb_state *mrb) {
     mrb_define_method(mrb, recorder, "name",            name,            MRB_ARGS_NONE());
     mrb_define_method(mrb, recorder, "volume=",         set_volume,      MRB_ARGS_REQ(1));
     mrb_define_method(mrb, recorder, "volume",          get_volume,      MRB_ARGS_NONE());
+
+    IGNORE_RETURN mrb_load_irep(mrb, AudioRecorder_symbol);
 
     RESTORE_ARENA(mrb);
 }

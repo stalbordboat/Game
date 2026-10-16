@@ -105,3 +105,11 @@ send_test :found_at => PATH, :within_block => :closed? do
 
   status
 end
+
+send_test :found_at => PATH, :within_block => :default_open_with_block? do
+  which = AudioRecorder.ids.first
+
+  status = AudioRecorder.open(which) { |recorder| recorder.name }
+
+  status.string? && !status.empty?
+end
