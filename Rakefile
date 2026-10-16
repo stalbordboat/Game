@@ -2,7 +2,7 @@
 # Domain-Specific Language: https://ruby.github.io/rake/Rake/DSL.html
 #
 # Defined inside Tasks/tasks.rb is a DSL(Domain-Specific Language) designed to be thin and transparent layer of abstraction
-# over the "lower-level" rake DSL that implements the underlying tasks listed when envoking "rake -T".
+# over the "lower-level" rake DSL that implements the underlying tasks listed when evoking "rake -T".
 #
 # This DSL describes task automation in two ways, as a specification, for example:
 #
