@@ -18,12 +18,23 @@
 #
 # # The path here is reletive to where the testing scripts are, so '../../' for 'Tests/CheckSymbols'.
 # # Each test should be a subdirectory of 'Tests'.
-# Task::Test.new('../../game') do |spec|
+# # The keyword arguments are all required, because some or potentially tests may use a compiler as part of the
+# # testing process.
+# test :using => '../../game', :compile_using => {c_compiler: 'cc', :with_these_pkgs => 'sdl3 game-mruby'} do |spec|
 #  spec.check_symbols = 'Tests/CheckSymbols'
 #  spec.window        = 'Tests/Window'
 # end
 #
-# When running environment, it expects an archive called Test.zip.
+# You may need to install rubyzip because the tests require testing a zip archive, so run this command if you don't have
+# rubyzip installed:
+#
+# bundle install
+#
+# You can run all tests like this:
+# rake test
+#
+# or you can run selected tests, for example:
+# rake "test[check_symbols]"
 
 require 'zip'
 
@@ -35,9 +46,9 @@ class TaskTest
   attr_accessor :audio
   attr_accessor :general
 
-  def initialize(bin, extra_utilities)
-    @bin             = bin
-    @extra_utilities = extra_utilities
+  def initialize(bin, compile_using)
+    @bin           = bin
+    @compile_using = compile_using
 
     yield self
 
@@ -60,75 +71,22 @@ class TaskTest
 
   private
 
-  def run_cmd(path, env='', options: nil)
+  def run_cmd_bin(path, env='', options: nil)
     cd(path) { sh("#{env} #{@bin} #{options}") }
   end
 
-  def run_check_symbols
-    run_cmd(@check_symbols)
-  end
+  def run_cmd_c_compiler(path, env='', options: nil, pkgs: @compile_using[:with_these_pkgs])
+    pkg_configs = "$(pkg-config --cflags --libs #{pkgs})"
 
-  def run_environments
-    filename_src    = 'Entry.c'
-    filename_output = 'Test.so'
-    filename = 'Test.zip'
-
-    build_test_so(filename_src, filename_output) if c_compiler?
-
-    # Run outside Archive.
-    env = 'GAME_START_PATH="Init.rb" GAME_NO_WINDOW=true GAME_NO_EVENTS=true GAME_NO_AUDIO=true'
-    run_cmd(@environments, env)
-
-    create_archive(filename)
-
-    # Run inside Archive.
-    env = 'GAME_START_PATH=Init.rb GAME_NO_WINDOW=true GAME_NO_EVENTS=true GAME_NO_AUDIO=true GAME_PHYSFS_ARCHIVE=Test.zip ARCHIVE_HAS_WRITE=false'
-    run_cmd(@environments, env)
-
-    remove_test_so(filename_output)
-    remove_archive(filename)
-  end
-
-  def run_window
-    run_cmd(@window)
-  end
-
-  def run_events
-    run_cmd(@events)
-  end
-
-  def run_audio
-    run_cmd(@audio, 'SDL_AUDIO_DRIVER=dummy')
-  end
-
-  def run_general
-    bin = 'cmd'
-
-    build_process_test_cmd(bin) if c_compiler?
-
-    run_cmd(@general, options: '-foo -bar')
-
-    remove_process_test_cmd(bin) if c_compiler?
-  end
-
-  def build_process_test_cmd(bin)
-    cd(@general) { sh("#{@extra_utilities[:c_compiler]} cmd.c -o #{bin}") }
-  end
-
-  def build_test_so(filename_src, filename_output)
-    cd(@environments) { sh("#{@extra_utilities[:c_compiler]} -fpic -I ../../Include #{filename_src} -shared -o #{filename_output} $(pkg-config --cflags --libs #{@extra_utilities[:pkgs]})") }
-  end
-
-  def remove_process_test_cmd(bin)
-    cd(@general) { rm(bin) }
-  end
-
-  def remove_test_so(filename_output)
-    cd(@environments) { rm(filename_output) }
+    cd(path) { sh("#{env} #{@compile_using[:c_compiler]} #{options} #{pkg_configs}") }
   end
 
   def c_compiler?
-    !@extra_utilities[:c_compiler].nil?
+    !@compile_using[:c_compiler].nil?
+  end
+
+  def run_cmd_remove(path, filename)
+    cd(path) { rm(filename) }
   end
 
   def create_archive(filename)
@@ -143,13 +101,58 @@ class TaskTest
     end
   end
 
-  def remove_archive(filename)
-    cd(@environments) { rm(filename) }
+  def run_check_symbols
+    run_cmd_bin(@check_symbols)
+  end
+
+  def run_environments
+    filename_src     = 'Entry.c'
+    filename_output  = 'Test.so'
+    filename         = 'Test.zip'
+    options_build_so = "-fpic -I ../../Include #{filename_src} -shared -o #{filename_output}"
+
+    run_cmd_c_compiler(@environments, options: options_build_so) if c_compiler?
+
+    # Run outside Archive.
+    env = 'GAME_START_PATH="Init.rb" GAME_NO_WINDOW=true GAME_NO_EVENTS=true GAME_NO_AUDIO=true'
+    run_cmd_bin(@environments, env)
+
+    create_archive(filename)
+
+    # Run inside Archive.
+    env = 'GAME_START_PATH=Init.rb GAME_NO_WINDOW=true GAME_NO_EVENTS=true GAME_NO_AUDIO=true GAME_PHYSFS_ARCHIVE=Test.zip ARCHIVE_HAS_WRITE=false'
+    run_cmd_bin(@environments, env)
+
+    run_cmd_remove(@environments, filename_output)
+    run_cmd_remove(@environments, filename)
+  end
+
+  def run_window
+    run_cmd_bin(@window)
+  end
+
+  def run_events
+    run_cmd_bin(@events)
+  end
+
+  def run_audio
+    run_cmd_bin(@audio, 'SDL_AUDIO_DRIVER=dummy')
+  end
+
+  def run_general
+    bin = 'cmd'
+
+    run_cmd_c_compiler(@general, options: " cmd.c -o #{bin}") if c_compiler?
+
+    run_cmd_bin(@general, options: '-foo -bar')
+
+    run_cmd_remove(@general, bin)
   end
 end
 
-def test(using: nil, extra_utilities: nil)
-  # extra_utilities is purely optional so no raise is needed for that keyword argument.
+def test(using: nil, compile_using: nil)
   raise 'The test spec requires a bin, example: test :using => "game"' if using.nil?
-  TaskTest.new(using, extra_utilities) { |spec| yield(spec) }
+  raise 'The test spec requires a c compiler, example: :compile_using => {c_compiler: "cc", :with_these_pkgs => "sdl3"}' if compile_using.nil?
+
+  TaskTest.new(using, compile_using) { |spec| yield(spec) }
 end

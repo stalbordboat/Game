@@ -1,8 +1,28 @@
 # General Documentation:    https://ruby.github.io/rake/
 # Domain-Specific Language: https://ruby.github.io/rake/Rake/DSL.html
 #
-# This file automates tasks using several tasks that are implemented in Tasks/tasks.rb. The defined tasks are listed below,
-# look at the code in the "tasks" section to see how they are used.
+# Defined inside Tasks/tasks.rb is a DSL(Domain-Specific Language) designed to be thin and transparent layer of abstraction
+# over the "lower-level" rake DSL that implements the underlying tasks listed when envoking "rake -T".
+#
+# This DSL describes task automation in two ways, as a specification, for example:
+#
+# build :this_executable => 'game', :with_this_compiler => 'cc' do |compiler|
+#   compiler.optimizations = '-O2'
+#   compiler.warnings      = '-Wall -Werror'
+#   compiler.include       = '-I Include'
+#   compiler.sources       = %w(Main.c Internal.c)
+#   compiler.pkgs          = 'game-mruby sdl3 physfs sdl3-mixer'
+# end
+#
+# or a command, for example:
+#
+# compile :bytecode_c,
+#         :with_this_compiler => 'game-mrbc',
+#         :move_output_from   => 'Mrblib',
+#         :to                 => 'Include'
+#
+# The purpose of this approach is that you don't need to know every detail to start using it the details become more clear
+# and obvious. The specs and commands are transparent, and their implementations are easy to get to and understand.
 
 require          'rake/clean'
 require_relative 'Tasks/tasks.rb'
@@ -72,7 +92,7 @@ installer :remove_bin_from => BIN_PREFIX, :remove_includes_from => INC_PREFIX do
   cmd.path_includes = NATIVE_DIRNAME
 end
 
-test :using => "../../#{BIN}", :extra_utilities => {:c_compiler => C_COMPILER, :pkgs => PKGS} do |spec|
+test :using => "../../#{BIN}", :compile_using => {c_compiler: C_COMPILER, :with_these_pkgs => PKGS} do |spec|
   spec.check_symbols = 'Tests/CheckSymbols'
   spec.environments  = 'Tests/Environments'
   spec.window        = 'Tests/Window'
