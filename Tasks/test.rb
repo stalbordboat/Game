@@ -91,6 +91,7 @@ class TaskTest
 
   def create_archive(filename)
     cd(@environments) do
+      # Keep only if files relevant to testing within archives
       filenames = Dir.entries('.').keep_if do |entry|
         !entry.include?('SDLFile') && !entry.eql?('.') && !entry.eql?('..')
       end
@@ -142,7 +143,7 @@ class TaskTest
   def run_general
     bin = 'cmd'
 
-    run_cmd_c_compiler(@general, options: " cmd.c -o #{bin}") if c_compiler?
+    run_cmd_c_compiler(@general, options: "cmd.c -o #{bin}") if c_compiler?
 
     run_cmd_bin(@general, options: '-foo -bar')
 
