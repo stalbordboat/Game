@@ -41,8 +41,8 @@ send_test :found_at => PATH, :within_block => :constant_values? do
   EXECUTABLE_NAME.eql?('../../game')                             &&
   ARGV.join(' ').eql?('-foo -bar')                               &&
   MAJOR.eql?('0')                                                &&
-  MINOR.eql?('7')                                                &&
-  PATCH.eql?('1')                                                &&
+  MINOR.eql?('8')                                                &&
+  PATCH.eql?('0')                                                &&
   RELEASE_TYPE.eql?('')                                          &&
   COPYRIGHT.eql?('MIT LICENSE - Copyright (c) 2026 Ralph Desir') &&
   DEFAULT_WINDOW_WIDTH.eql?(1280)                                &&

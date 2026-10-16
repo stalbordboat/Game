@@ -19,9 +19,11 @@
 
 // All Versions 0.7.0 or greater use semantic versioning:
 // For more information please visit: https://semver.org/
+// Don't forget to update the :constant_values? test at: Tests/General/Kernel.rb after changing the version!
+// After words run the test to make sure it works: rake "test[general]".
 #define GAME_MAJOR_VERSION "0"
-#define GAME_MINOR_VERSION "7"
-#define GAME_PATCH_VERSION "1"
+#define GAME_MINOR_VERSION "8"
+#define GAME_PATCH_VERSION "0"
 #define GAME_RELEASE_TYPE  ""
 #define GAME_COPYRIGHT     "MIT LICENSE - Copyright (c) 2026 Ralph Desir"
 
